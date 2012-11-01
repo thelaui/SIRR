@@ -1,0 +1,24 @@
+# depslib dependency file v1.0
+1351793969 source:/home/master/Dokumente/Studium/Realtime_Rendering/exercises/SIRR/src/primitives/Point.cpp
+	"primitives/Point.hpp"
+
+1351793964 /home/master/Dokumente/Studium/Realtime_Rendering/exercises/SIRR/include/primitives/Point.hpp
+	<ostream>
+
+1351794183 source:/home/master/Dokumente/Studium/Realtime_Rendering/exercises/SIRR/src/primitives/Polygon.cpp
+	"primitives/Polygon.hpp"
+
+1351794032 /home/master/Dokumente/Studium/Realtime_Rendering/exercises/SIRR/include/primitives/Polygon.hpp
+	"primitives/Point.hpp"
+	<list>
+
+1351794701 source:/home/master/Dokumente/Studium/Realtime_Rendering/exercises/SIRR/src/utils/Plyfile.cpp
+	"utils/Plyfile.hpp"
+	<fstream>
+	<sstream>
+	<iostream>
+
+1351792050 /home/master/Dokumente/Studium/Realtime_Rendering/exercises/SIRR/include/utils/Plyfile.hpp
+	"primitives/Polygon.hpp"
+	<string>
+
