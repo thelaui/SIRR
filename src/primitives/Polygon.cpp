@@ -5,6 +5,9 @@ namespace SIRR {
 Polygon::Polygon():
     points_() {}
 
+Polygon::Polygon(std::list<Point> const& points):
+    points_(points) {}
+
 std::list<Point> const& Polygon::get_points() const {
     return points_;
 }

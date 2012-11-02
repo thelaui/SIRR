@@ -32,7 +32,11 @@ Polygon const Plyfile::load_from(std::string const& path_to_file) const {
         } else if (header_ended && (vertex_number > 0)) {
             std::stringstream coords(line);
             float x(0.f), y(0.f), z(0.f);
-            coords >> x >> y >> z;
+
+            //coords >> x >> y >> z;
+
+            //Do always planar projections on xy-plane
+            coords >> x >> y;
             result.add_point(Point(x, y, z));
             --vertex_number;
         }

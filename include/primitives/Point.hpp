@@ -23,6 +23,8 @@ class Point {
         float x_, y_, z_;
 };
 
+bool COMPARE_X(Point const& lhs, Point const& rhs);
+
 }
 
 std::ostream& operator<< (std::ostream& os, SIRR::Point const& point);

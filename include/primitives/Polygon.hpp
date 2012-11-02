@@ -10,6 +10,7 @@ namespace SIRR {
 class Polygon {
     public:
         Polygon();
+        Polygon(std::list<Point> const& points);
 
         std::list<Point> const& get_points() const;
 
