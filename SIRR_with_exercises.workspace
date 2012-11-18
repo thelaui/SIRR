@@ -2,7 +2,10 @@
 <CodeBlocks_workspace_file>
 	<Workspace title="Workspace">
 		<Project filename="SIRR.cbp" />
-		<Project filename="exercises/exercise_1/exercise_1.cbp" active="1">
+		<Project filename="exercises/exercise_1/exercise_1.cbp">
+			<Depends filename="SIRR.cbp" />
+		</Project>
+		<Project filename="exercises/exercise_2/exercise_2.cbp" active="1">
 			<Depends filename="SIRR.cbp" />
 		</Project>
 	</Workspace>

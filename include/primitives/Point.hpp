@@ -7,7 +7,7 @@ namespace SIRR {
 
 class Point {
     public:
-        Point(float x, float y, float z);
+        Point(float x = 0.f, float y = 0.f, float z = 0.f);
 
         float get_x() const;
         float get_y() const;

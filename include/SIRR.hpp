@@ -2,5 +2,6 @@
 #include "algorithms/OrientationChecker.hpp"
 #include "primitives/Point.hpp"
 #include "primitives/Polygon.hpp"
+#include "primitives/Line.hpp"
 #include "utils/Plyfile.hpp"
 #include "utils/sclap.hpp"
