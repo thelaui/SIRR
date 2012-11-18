@@ -1,6 +1,7 @@
 #include "SIRR.hpp"
 
 #include <iostream>
+#include <set>
 
 int main(int argc, const char** argv) {
 
