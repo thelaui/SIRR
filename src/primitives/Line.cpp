@@ -2,12 +2,16 @@
 #include "algorithms/OrientationChecker.hpp"
 
 #include <cmath>
+#include <iostream>
 
 namespace SIRR {
 
 Line::Line(Point const& a, Point const& b):
     a_(a),
-    b_(b) {}
+    b_(b) {
+        if (a_.get_y() > b_.get_y())
+            std::swap(a_, b_);
+    }
 
 Point const& Line::get_a() const {
     return a_;
@@ -22,7 +26,7 @@ Point const Line::intersects(Line const& l) const {
 
     OrientationChecker checker;
 
-    if (checker.check({a_, l.b_, b_}) != checker.check({a_, b_, l.a_})) {
+    if (checker.check({a_, b_, l.a_}) != checker.check({a_, b_, l.b_})) {
 
         float fract((a_.get_x() - b_.get_x()) * (l.a_.get_y() - l.b_.get_y()) - (a_.get_y() - b_.get_y()) * (l.a_.get_x() - l.b_.get_x()));
 

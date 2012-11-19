@@ -46,18 +46,22 @@
 		<Unit filename="include/algorithms/IntersectionEvent.hpp" />
 		<Unit filename="include/algorithms/OrientationChecker.hpp" />
 		<Unit filename="include/algorithms/StartEvent.hpp" />
+		<Unit filename="include/algorithms/StatusStructure.hpp" />
 		<Unit filename="include/primitives/Line.hpp" />
 		<Unit filename="include/primitives/Point.hpp" />
 		<Unit filename="include/primitives/Polygon.hpp" />
 		<Unit filename="include/utils/Plyfile.hpp" />
+		<Unit filename="include/utils/SVGBuilder.hpp" />
 		<Unit filename="include/utils/sclap.hpp" />
 		<Unit filename="src/algorithms/ConvexHullBuilder.cpp" />
 		<Unit filename="src/algorithms/Event.cpp" />
 		<Unit filename="src/algorithms/OrientationChecker.cpp" />
+		<Unit filename="src/algorithms/StatusStructure.cpp" />
 		<Unit filename="src/primitives/Line.cpp" />
 		<Unit filename="src/primitives/Point.cpp" />
 		<Unit filename="src/primitives/Polygon.cpp" />
 		<Unit filename="src/utils/Plyfile.cpp" />
+		<Unit filename="src/utils/SVGBuilder.cpp" />
 		<Extensions>
 			<envvars />
 			<code_completion />
