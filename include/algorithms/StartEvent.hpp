@@ -5,10 +5,20 @@
 
 namespace SIRR {
 
+class Line;
+
 class StartEvent : public Event {
     public:
-        StartEvent(Point const& position):
-            Event(position) {}
+        StartEvent(Point const& position, Line* l):
+            Event(position, Event::START),
+            l_(l) {}
+
+        Line* get_l() const {
+            return l_;
+        }
+
+    private:
+        Line* l_;
 
 };
 

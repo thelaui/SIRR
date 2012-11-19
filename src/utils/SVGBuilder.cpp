@@ -8,7 +8,6 @@ namespace SIRR {
 SVGBuilder::SVGBuilder() {}
 
 void SVGBuilder::build(std::string const& path_to_file, std::list<Line> const& lines, std::list<Point> const& points) const {
-    std::stringstream line_stream;
 
     float max_x(0.f), max_y(0.f);
 
@@ -20,12 +19,27 @@ void SVGBuilder::build(std::string const& path_to_file, std::list<Line> const& l
 
         max_x = std::max(max_x, std::max(x1, x2));
         max_y = std::max(max_y, std::max(y1, y2));
+    }
+
+    std::stringstream line_stream;
+
+    for (auto line : lines) {
+        float x1(line.get_a().get_x() * 100.f);
+        float y1(line.get_a().get_y() * 100.f);
+        float x2(line.get_b().get_x() * 100.f);
+        float y2(line.get_b().get_y() * 100.f);
 
         line_stream << "<line x1=\"" << x1
-                    <<"\" y1=\"" << y1
+                    <<"\" y1=\"" << max_y + 20.f - y1
                     <<"\" x2=\"" << x2
-                    <<"\" y2=\"" << y2
-                    <<"\" style=\"stroke:rgb(100,100,100);stroke-width:2\" />\n";
+                    <<"\" y2=\"" << max_y + 20.f - y2
+                    <<"\" style=\"stroke:rgb(100,100,100);stroke-width:2\" />\n"
+                    << "<circle cx=\"" << x1
+                    << "\" cy=\"" << max_y + 20.f - y1
+                    << "\" r=\"5\" stroke=\"none\" fill=\"rgb(100,100,100)\" />\n"
+                    << "<circle cx=\"" << x2
+                    << "\" cy=\"" << max_y + 20.f - y2
+                    << "\" r=\"5\" stroke=\"none\" fill=\"rgb(100,100,100)\" />\n";
     }
 
     std::ofstream file(path_to_file);
@@ -37,8 +51,8 @@ void SVGBuilder::build(std::string const& path_to_file, std::list<Line> const& l
 
     for (auto point : points) {
         file << "<circle cx=\"" << point.get_x() * 100.f
-             << "\" cy=\"" << point.get_y() * 100.f
-             << "\" r=\"3\" stroke=\"none\" fill=\"rgb(200,240,120)\" />\n";
+             << "\" cy=\"" << max_y + 20.f - point.get_y() * 100.f
+             << "\" r=\"9\" stroke=\"rgb(100,100,100)\" fill=\"rgb(200,240,120)\" />\n";
     }
 
     file << "</svg>\n</body>\n</html>";

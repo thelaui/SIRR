@@ -5,25 +5,31 @@
 
 #include "primitives/Point.hpp"
 #include "algorithms/OrientationChecker.hpp"
+#include "algorithms/EventStructure.hpp"
 
 namespace SIRR {
 
 class Line;
+class StartEvent;
+class EndEvent;
+class IntersectionEvent;
 
 class StatusStructure {
     public:
         StatusStructure();
 
-        void add_line(Line* line);
-        void remove_line(Line* line);
-
-        void swap(Line* l1, Line* l2);
+        Point const process_event(Event* event, EventStructure& event_structure);
 
         void print(std::ostream& os) const;
 
 
     private:
         std::vector<Line*> lines_;
+
+        void add_line(StartEvent* event, EventStructure& event_structure);
+        void remove_line(EndEvent* event, EventStructure& event_structure);
+        void swap(IntersectionEvent* event, EventStructure& event_structure);
+
 
         std::vector<Line*>::iterator find_higher(Point const& query_point);
         std::vector<Line*>::iterator find_closest(Line* line);

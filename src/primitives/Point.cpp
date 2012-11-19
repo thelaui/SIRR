@@ -41,6 +41,12 @@ bool COMPARE_X(Point const& lhs, Point const& rhs) {
     return lhs.get_x() < rhs.get_x();
 }
 
+bool COMPARE_Y(Point const& lhs, Point const& rhs) {
+    if (lhs.get_y() == rhs.get_y())
+        return lhs.get_x() < rhs.get_x();
+    return lhs.get_y() < rhs.get_y();
+}
+
 }
 
 std::ostream& operator<< (std::ostream& os, SIRR::Point const& point) {

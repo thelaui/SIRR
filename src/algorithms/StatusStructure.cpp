@@ -1,5 +1,8 @@
 #include "algorithms/StatusStructure.hpp"
 
+#include "algorithms/StartEvent.hpp"
+#include "algorithms/EndEvent.hpp"
+#include "algorithms/IntersectionEvent.hpp"
 #include "primitives/Line.hpp"
 
 #include <iostream>
@@ -9,21 +12,100 @@ namespace SIRR {
 StatusStructure::StatusStructure():
     lines_() {}
 
-void StatusStructure::add_line(Line* line) {
-    lines_.insert(find_higher(line->get_a()), line);
-}
+Point const StatusStructure::process_event(Event* event, EventStructure& event_structure) {
+    Point result(0.f, 0.f, -1.f);
+    Event::EventType type(event->get_type());
 
-void StatusStructure::remove_line(Line* line) {
-    lines_.erase(find_closest(line));
-}
+    switch (type) {
+        case Event::START: {
+            StartEvent* start_event(reinterpret_cast<StartEvent*>(event));
+            std::cout << "Processing " << *start_event << std::endl;
+            add_line(start_event, event_structure);
+        } break;
 
-void StatusStructure::swap(Line* l1, Line* l2) {
-    std::swap(**find_closest(l1), **find_closest(l2));
+        case Event::END: {
+            EndEvent* end_event(reinterpret_cast<EndEvent*>(event));
+            std::cout << "Processing " << *end_event << std::endl;
+            std::cout << *end_event->get_l() << std::endl;
+            remove_line(end_event, event_structure);
+        } break;
+
+        case Event::INTERSECTION: {
+            IntersectionEvent* intersection_event(reinterpret_cast<IntersectionEvent*>(event));
+            std::cout << "Processing " << *intersection_event << std::endl;
+            swap(intersection_event, event_structure);
+            result = intersection_event->get_position();
+        } break;
+
+        default: break;
+
+    }
+    std::cout << std::endl;
+
+    return result;
 }
 
 void StatusStructure::print(std::ostream& os) const {
     for (auto line : lines_)
         os << *line << std::endl;
+}
+
+void StatusStructure::add_line(StartEvent* event, EventStructure& event_structure) {
+    auto insert_position(find_higher(event->get_l()->get_a()));
+    auto intersection_right(Point(0.f, 0.f, -1.f));
+    auto intersection_left(Point(0.f, 0.f, -1.f));
+
+    if (insert_position != lines_.end()) {
+        intersection_right = event->get_l()->intersects(**insert_position);
+        if (intersection_right.get_z() != -1.f)
+            event_structure.add_event(new IntersectionEvent(intersection_right, event->get_l(), *insert_position));
+    }
+    if (insert_position != lines_.begin()) {
+        intersection_left = event->get_l()->intersects(**(insert_position-1));
+        if (intersection_left.get_z() != -1.f)
+            event_structure.add_event(new IntersectionEvent(intersection_left, event->get_l(), *(insert_position-1)));
+    }
+
+    lines_.insert(insert_position, event->get_l());
+}
+
+void StatusStructure::remove_line(EndEvent* event, EventStructure& event_structure) {
+    auto deletion_position(find_closest(event->get_l()));
+    auto intersection(Point(0.f, 0.f, -1.f));
+
+    if (deletion_position > lines_.begin() && deletion_position < lines_.end()-1) {
+        intersection = (*(deletion_position - 1))->intersects(**(deletion_position+1));
+        if (intersection.get_z() != -1.f && intersection.get_y() > event->get_position().get_y())
+            event_structure.add_event(new IntersectionEvent(intersection, *(deletion_position - 1), *(deletion_position+1)));
+    }
+
+    if (deletion_position == lines_.end())
+        std::cout << "haha" << std::endl;
+    lines_.erase(deletion_position);
+
+}
+
+void StatusStructure::swap(IntersectionEvent* event, EventStructure& event_structure) {
+    auto swap_left(find_closest(event->get_l1()));
+    auto swap_right(find_closest(event->get_l2()));
+    auto intersection_right(Point(0.f, 0.f, -1.f));
+    auto intersection_left(Point(0.f, 0.f, -1.f));
+
+    if (swap_right < lines_.end() - 1) {
+        intersection_right = event->get_l1()->intersects(**(swap_right + 1));
+        if (intersection_right.get_z() != -1.f && intersection_right.get_y() > event->get_position().get_y())
+            event_structure.add_event(new IntersectionEvent(intersection_right, event->get_l1(), *(swap_right + 1)));
+    }
+
+    if (swap_left > lines_.begin()) {
+        intersection_left = event->get_l2()->intersects(**(swap_left - 1));
+        if (intersection_left.get_z() != -1.f && intersection_left.get_y() > event->get_position().get_y())
+            event_structure.add_event(new IntersectionEvent(intersection_left, event->get_l2(), *(swap_left - 1)));
+    }
+
+    auto tmp = *swap_left;
+    *swap_left = *swap_right;
+    *swap_right = tmp;
 }
 
 std::vector<Line*>::iterator StatusStructure::find_higher(Point const& query_point) {
@@ -59,26 +141,30 @@ std::vector<Line*>::iterator StatusStructure::find_higher(Point const& query_poi
 
 std::vector<Line*>::iterator StatusStructure::find_closest(Line* line) {
     auto closest = find_higher(line->get_a());
-    int close_pos(closest - lines_.begin());
-    int i(0);
 
-    while(i < int(lines_.size())) {
+    if (*closest != line) {
+        int close_pos(closest - lines_.begin());
+        int i(0);
 
-        if (close_pos + i < int(lines_.size()) && lines_[close_pos + i] == line) {
-            closest = lines_.begin() + close_pos + i;
-            break;
+        while(i < int(lines_.size())) {
 
-        } else if (close_pos - i >= 0 && lines_[close_pos - i] == line) {
-            closest = lines_.begin() + close_pos - i;
-            break;
+            if (close_pos + i < int(lines_.size()) && lines_[close_pos + i] == line) {
+                closest = lines_.begin() + close_pos + i;
+                break;
+
+            } else if (close_pos - i >= 0 && lines_[close_pos - i] == line) {
+                closest = lines_.begin() + close_pos - i;
+                break;
+            }
+
+            ++i;
         }
-
-        ++i;
     }
 
+    if (closest == lines_.end())
+        return closest - 1;
     return closest;
 }
-
 
 }
 

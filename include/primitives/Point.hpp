@@ -24,6 +24,7 @@ class Point {
 };
 
 bool COMPARE_X(Point const& lhs, Point const& rhs);
+bool COMPARE_Y(Point const& lhs, Point const& rhs);
 
 }
 

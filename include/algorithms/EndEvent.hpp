@@ -5,10 +5,20 @@
 
 namespace SIRR {
 
+class Line;
+
 class EndEvent : public Event {
     public:
-        EndEvent(Point const& position):
-            Event(position) {}
+        EndEvent(Point const& position, Line* l):
+            Event(position, Event::END),
+            l_(l) {}
+
+    Line* get_l() const {
+            return l_;
+        }
+
+    private:
+        Line* l_;
 
 };
 

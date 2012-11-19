@@ -25,6 +25,7 @@
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-O2" />
+					<Add option="-std=c++0x" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
@@ -41,7 +42,6 @@
 			<Add directory="../../lib" />
 		</Linker>
 		<Unit filename="main.cpp" />
-		<Unit filename="../../src/algorithms/EventStructure.cpp" />
 		<Extensions>
 			<envvars />
 			<code_completion />

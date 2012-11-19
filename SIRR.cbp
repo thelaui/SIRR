@@ -44,6 +44,7 @@
 		<Unit filename="include/algorithms/Event.hpp" />
 		<Unit filename="include/algorithms/EventStructure.hpp" />
 		<Unit filename="include/algorithms/IntersectionEvent.hpp" />
+		<Unit filename="include/algorithms/LineIntersectionFinder.hpp" />
 		<Unit filename="include/algorithms/OrientationChecker.hpp" />
 		<Unit filename="include/algorithms/StartEvent.hpp" />
 		<Unit filename="include/algorithms/StatusStructure.hpp" />
@@ -55,6 +56,8 @@
 		<Unit filename="include/utils/sclap.hpp" />
 		<Unit filename="src/algorithms/ConvexHullBuilder.cpp" />
 		<Unit filename="src/algorithms/Event.cpp" />
+		<Unit filename="src/algorithms/EventStructure.cpp" />
+		<Unit filename="src/algorithms/LineIntersectionFinder.cpp" />
 		<Unit filename="src/algorithms/OrientationChecker.cpp" />
 		<Unit filename="src/algorithms/StatusStructure.cpp" />
 		<Unit filename="src/primitives/Line.cpp" />

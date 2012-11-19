@@ -54,8 +54,8 @@ void Line::print(std::ostream& os) const {
 
 }
 
-std::ostream& operator<< (std::ostream& os, SIRR::Line const& Line) {
-    Line.print(os);
+std::ostream& operator<< (std::ostream& os, SIRR::Line const& line) {
+    line.print(os);
     return os;
 }
 

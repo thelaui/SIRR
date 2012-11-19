@@ -11,17 +11,22 @@ class EventStructure {
     public:
         EventStructure();
 
-        void add_event(Event const& event);
+        void add_event(Event* event);
 
-        Event const& get_max() const;
-        void delete_max();
+        Event* get_top() const;
+        void delete_top();
 
+        bool empty() const;
+
+        void print(std::ostream& os) const;
 
     private:
-        std::multiset<Event, Event::EventCompare> events_;
+        std::multiset<Event*, Event::EventCompare> events_;
 };
 
 }
+
+std::ostream& operator<< (std::ostream& os, SIRR::EventStructure const& event_structure);
 
 #endif //EVENT_STRUCTURE_HPP
 
