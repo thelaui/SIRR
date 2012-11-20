@@ -19,9 +19,7 @@ std::list<Point> const LineIntersectionFinder::find_intersections(std::list<Line
 
     for (auto line = lines.begin(); line != lines.end(); ++line) {
         event_structure.add_event(new StartEvent(line->get_a(), &(*line)));
-        auto ee = new EndEvent(line->get_b(), &(*line));
-        event_structure.add_event(ee);
-        std::cout << "added " << *ee->get_l() << std::endl;
+        event_structure.add_event(new EndEvent(line->get_b(), &(*line)));
     }
 
     while (!event_structure.empty()) {

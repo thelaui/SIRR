@@ -26,7 +26,8 @@ Point const Line::intersects(Line const& l) const {
 
     OrientationChecker checker;
 
-    if (checker.check({a_, b_, l.a_}) != checker.check({a_, b_, l.b_})) {
+    if (checker.check({a_, b_, l.a_}) != checker.check({a_, b_, l.b_}) &&
+        checker.check({a_, l.a_, l.b_}) != checker.check({b_, l.a_, l.b_})) {
 
         float fract((a_.get_x() - b_.get_x()) * (l.a_.get_y() - l.b_.get_y()) - (a_.get_y() - b_.get_y()) * (l.a_.get_x() - l.b_.get_x()));
 
