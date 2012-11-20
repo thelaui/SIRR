@@ -35,6 +35,10 @@ void Point::print(std::ostream& os) const {
     os << x_ << " " << y_ << " " << z_;
 }
 
+bool Point::operator==(Point const& rhs) const {
+    return x_ == rhs.x_ && y_ == rhs.y_;
+}
+
 bool COMPARE_X(Point const& lhs, Point const& rhs) {
     if (lhs.get_x() == rhs.get_x())
         return lhs.get_y() < rhs.get_y();

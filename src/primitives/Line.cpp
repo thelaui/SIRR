@@ -25,24 +25,32 @@ Point const Line::intersects(Line const& l) const {
     float x(0.f), y(0.f), z(-1.f);
 
     OrientationChecker checker;
+    std::cout << "Checking intersection of " << *this << " and " << l << std::endl;
 
-    if (checker.check({a_, b_, l.a_}) != checker.check({a_, b_, l.b_}) &&
-        checker.check({a_, l.a_, l.b_}) != checker.check({b_, l.a_, l.b_})) {
+    float check_1(checker.check({a_, b_, l.a_})), check_2(checker.check({a_, b_, l.b_})),
+           check_3( checker.check({a_, l.a_, l.b_})), check_4(checker.check({b_, l.a_, l.b_}));
 
-        float fract((a_.get_x() - b_.get_x()) * (l.a_.get_y() - l.b_.get_y()) - (a_.get_y() - b_.get_y()) * (l.a_.get_x() - l.b_.get_x()));
+    if (check_1 * check_2 * check_3 * check_4 != 0) {
 
-        if (std::abs(fract) != 0.f) {
+        if (check_1 != check_2 && check_3 != check_4) {
 
-            x = ((a_.get_x() * b_.get_y() - a_.get_y() * b_.get_x() )  * (l.a_.get_x() - l.b_.get_x()) -
-                (l.a_.get_x() * l.b_.get_y() - l.a_.get_y() * l.b_.get_x() )  * (a_.get_x() - b_.get_x())) /
-                fract;
+            float fract((a_.get_x() - b_.get_x()) * (l.a_.get_y() - l.b_.get_y()) - (a_.get_y() - b_.get_y()) * (l.a_.get_x() - l.b_.get_x()));
 
-            y = ((a_.get_x() * b_.get_y() - a_.get_y() * b_.get_x() )  * (l.a_.get_y() - l.b_.get_y()) -
-                (l.a_.get_x() * l.b_.get_y() - l.a_.get_y() * l.b_.get_x() )  * (a_.get_y() - b_.get_y())) /
-                fract;
-            z = 0.f;
+            if (std::abs(fract) != 0.f) {
+
+                x = ((a_.get_x() * b_.get_y() - a_.get_y() * b_.get_x() )  * (l.a_.get_x() - l.b_.get_x()) -
+                    (l.a_.get_x() * l.b_.get_y() - l.a_.get_y() * l.b_.get_x() )  * (a_.get_x() - b_.get_x())) /
+                    fract;
+
+                y = ((a_.get_x() * b_.get_y() - a_.get_y() * b_.get_x() )  * (l.a_.get_y() - l.b_.get_y()) -
+                    (l.a_.get_x() * l.b_.get_y() - l.a_.get_y() * l.b_.get_x() )  * (a_.get_y() - b_.get_y())) /
+                    fract;
+                z = 0.f;
+
+                std::cout << "Found intersection at " << Point(x, y, z) << std::endl;
+            }
+
         }
-
     }
 
     return Point(x, y, z);

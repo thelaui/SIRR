@@ -19,6 +19,8 @@ class Point {
 
         void print(std::ostream& os) const;
 
+        bool operator==(Point const& rhs) const;
+
     private:
         float x_, y_, z_;
 };

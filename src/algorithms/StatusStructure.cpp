@@ -51,19 +51,22 @@ void StatusStructure::print(std::ostream& os) const {
 }
 
 void StatusStructure::add_line(StartEvent* event, EventStructure& event_structure) {
-    auto insert_position(find_higher(event->get_l()->get_a()));
+    auto insert_position(find_higher(event->get_l()));
     auto intersection_right(Point(0.f, 0.f, -1.f));
     auto intersection_left(Point(0.f, 0.f, -1.f));
 
     if (insert_position != lines_.end()) {
-        intersection_right = event->get_l()->intersects(**insert_position);
-        if (intersection_right.get_z() != -1.f)
-            event_structure.add_event(new IntersectionEvent(intersection_right, event->get_l(), *insert_position));
+        if (insert_position != lines_.end()) {
+            intersection_right = event->get_l()->intersects(**insert_position);
+            if (intersection_right.get_z() != -1.f)
+                event_structure.add_event(new IntersectionEvent(intersection_right, event->get_l(), *insert_position));
+        }
     }
+
     if (insert_position != lines_.begin()) {
         intersection_left = event->get_l()->intersects(**(insert_position-1));
         if (intersection_left.get_z() != -1.f)
-            event_structure.add_event(new IntersectionEvent(intersection_left, event->get_l(), *(insert_position-1)));
+            event_structure.add_event(new IntersectionEvent(intersection_left, *(insert_position-1), event->get_l()));
     }
 
     lines_.insert(insert_position, event->get_l());
@@ -79,8 +82,6 @@ void StatusStructure::remove_line(EndEvent* event, EventStructure& event_structu
             event_structure.add_event(new IntersectionEvent(intersection, *(deletion_position - 1), *(deletion_position+1)));
     }
 
-    if (deletion_position == lines_.end())
-        std::cout << "haha" << std::endl;
     lines_.erase(deletion_position);
 
 }
@@ -93,13 +94,13 @@ void StatusStructure::swap(IntersectionEvent* event, EventStructure& event_struc
 
     if (swap_right < lines_.end() - 1) {
         intersection_right = event->get_l1()->intersects(**(swap_right + 1));
-        if (intersection_right.get_z() != -1.f && intersection_right.get_y() > event->get_position().get_y())
+        if (intersection_right.get_z() != -1.f && intersection_right.get_y() >= event->get_position().get_y())
             event_structure.add_event(new IntersectionEvent(intersection_right, event->get_l1(), *(swap_right + 1)));
     }
 
     if (swap_left > lines_.begin()) {
         intersection_left = event->get_l2()->intersects(**(swap_left - 1));
-        if (intersection_left.get_z() != -1.f && intersection_left.get_y() > event->get_position().get_y())
+        if (intersection_left.get_z() != -1.f && intersection_left.get_y() >= event->get_position().get_y())
             event_structure.add_event(new IntersectionEvent(intersection_left, event->get_l2(), *(swap_left - 1)));
     }
 
@@ -108,30 +109,40 @@ void StatusStructure::swap(IntersectionEvent* event, EventStructure& event_struc
     *swap_right = tmp;
 }
 
-std::vector<Line*>::iterator StatusStructure::find_higher(Point const& query_point) {
+std::vector<Line*>::iterator StatusStructure::find_higher(Line* query_line) {
     OrientationChecker const checker;
 
     if (lines_.size() == 0) {
         return lines_.begin();
-    } else if (lines_.size() == 1) {
-        if (checker.check({query_point, lines_[0]->get_a(), lines_[0]->get_b()}) == 1)
-            return lines_.begin();
-        return lines_.end();
+//    } else if (lines_.size() == 1) {
+//        float orientation(checker.check({query_line->get_a(), lines_[0]->get_a(), lines_[0]->get_b()}));
+//        if (orientation == 1) {
+//            return lines_.begin();
+//        } else if (orientation == -1) {
+//            return lines_.end();
+//        } else {
+//            if (query_line->get_b().get_x() > lines_[0]->get_b().get_x())
+//                return lines_.end();
+//            else return lines_.begin();
+//        }
     } else {
         int first_index(0), last_index(lines_.size()), current_index(0);
 
         while(true) {
             current_index = first_index + (last_index - first_index)/2;
-
-            if (checker.check({query_point, lines_[current_index]->get_a(), lines_[current_index]->get_b()}) == 1) {
+            float orientation(checker.check({query_line->get_a(), lines_[current_index]->get_a(), lines_[current_index]->get_b()}));
+            if (orientation == 1) {
                 if (current_index == first_index)
                     return lines_.begin();
                 last_index = current_index;
-            }
-            else {
+            } else if (orientation == -1) {
                 if (current_index + 1 == last_index)
                     return lines_.begin() + last_index;
                 first_index = current_index;
+            } else {
+                if (query_line->get_b().get_x() > lines_[current_index]->get_b().get_x())
+                    return lines_.begin() + current_index + 1;
+                else return lines_.begin() + current_index;
             }
         }
 
@@ -140,7 +151,7 @@ std::vector<Line*>::iterator StatusStructure::find_higher(Point const& query_poi
 }
 
 std::vector<Line*>::iterator StatusStructure::find_closest(Line* line) {
-    auto closest = find_higher(line->get_a());
+    auto closest = find_higher(line);
 
     if (*closest != line) {
         int close_pos(closest - lines_.begin());

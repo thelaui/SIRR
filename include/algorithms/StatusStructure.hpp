@@ -31,7 +31,7 @@ class StatusStructure {
         void swap(IntersectionEvent* event, EventStructure& event_structure);
 
 
-        std::vector<Line*>::iterator find_higher(Point const& query_point);
+        std::vector<Line*>::iterator find_higher(Line* query_line);
         std::vector<Line*>::iterator find_closest(Line* line);
 
 };

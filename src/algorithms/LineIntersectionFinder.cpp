@@ -27,10 +27,9 @@ std::list<Point> const LineIntersectionFinder::find_intersections(std::list<Line
         Event* event(event_structure.get_top());
         event_structure.delete_top();
         Point intersection(status_structure.process_event(event, event_structure));
-        if (intersection.get_z() != -1) {
-//            std::cout << intersection << std::endl;
+        if (intersection.get_z() != -1)
             intersections.push_back(intersection);
-        }
+
         std::cout << "Status structure:\n" << status_structure << std::endl;
     }
 
