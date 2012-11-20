@@ -3,12 +3,75 @@
 #include <fstream>
 #include <sstream>
 #include <iostream>
+#include <vector>
 
 namespace SIRR {
 
 Plyfile::Plyfile() {}
 
-Polygon const Plyfile::load_from(std::string const& path_to_file) const {
+std::list<Polygon> const Plyfile::load_from(std::string const& path_to_file) const {
+
+    std::ifstream file(path_to_file);
+    std::list<Polygon> result;
+
+    std::vector<Point> vertices;
+
+    std::string line;
+    unsigned vertex_number(0);
+    unsigned face_number(0);
+    bool header_ended(false);
+    bool vertices_ended(false);
+
+    while (std::getline(file, line)) {
+        std::stringstream parse(line);
+        std::string word;
+        parse >> word;
+        if (word == "element") {
+            parse >> word;
+            if (word == "vertex")
+                parse >> vertex_number;
+            else if (word == "face")
+                parse >> face_number;
+
+        } else if (word == "end_header") {
+            header_ended = true;
+
+        } else if (header_ended && (vertex_number > 0)) {
+            std::stringstream coords(line);
+            float x(0.f), y(0.f), z(0.f);
+
+            //coords >> x >> y >> z;
+
+            //Always do a planar projection on xy-plane
+            coords >> x >> y;
+            vertices.push_back(Point(x, y, z));
+            if (--vertex_number == 0)
+                vertices_ended = true;
+
+        } else if (vertices_ended && (face_number > 0)) {
+            std::stringstream face_data(line);
+            unsigned count(0), vertex_pos(0);
+
+            face_data >> count;
+            Polygon to_be_added;
+            for (unsigned i(0); i < count; ++i) {
+                face_data >> vertex_pos;
+                to_be_added.add_point(vertices[vertex_pos]);
+            }
+
+            result.push_back(to_be_added);
+            --face_number;
+        }
+
+    }
+
+    file.close();
+
+    return result;
+
+}
+
+Polygon const Plyfile::load_as_one_polygon(std::string const& path_to_file) const {
 
     std::ifstream file(path_to_file);
     Polygon result;
@@ -48,6 +111,8 @@ Polygon const Plyfile::load_from(std::string const& path_to_file) const {
     return result;
 
 }
+
+
 
 void Plyfile::save_to(Polygon const& polygon, std::string const& path_to_file) const {
     std::ofstream file(path_to_file);
