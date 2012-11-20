@@ -11,6 +11,9 @@ Line::Line(Point const& a, Point const& b):
     b_(b) {
         if (a_.get_y() > b_.get_y())
             std::swap(a_, b_);
+        else if (a.get_y() == b.get_y())
+            if (a.get_x() > b.get_x())
+                std::swap(a_, b_);
     }
 
 Point const& Line::get_a() const {

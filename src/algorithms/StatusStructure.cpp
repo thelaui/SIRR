@@ -26,7 +26,6 @@ Point const StatusStructure::process_event(Event* event, EventStructure& event_s
         case Event::END: {
             EndEvent* end_event(reinterpret_cast<EndEvent*>(event));
             std::cout << "Processing " << *end_event << std::endl;
-            std::cout << *end_event->get_l() << std::endl;
             remove_line(end_event, event_structure);
         } break;
 
@@ -52,6 +51,7 @@ void StatusStructure::print(std::ostream& os) const {
 
 void StatusStructure::add_line(StartEvent* event, EventStructure& event_structure) {
     auto insert_position(find_higher(event->get_l()));
+
     auto intersection_right(Point(0.f, 0.f, -1.f));
     auto intersection_left(Point(0.f, 0.f, -1.f));
 
@@ -140,9 +140,15 @@ std::vector<Line*>::iterator StatusStructure::find_higher(Line* query_line) {
                     return lines_.begin() + last_index;
                 first_index = current_index;
             } else {
-                if (query_line->get_b().get_x() > lines_[current_index]->get_b().get_x())
-                    return lines_.begin() + current_index + 1;
-                else return lines_.begin() + current_index;
+                if (checker.check({query_line->get_b(), lines_[current_index]->get_a(), lines_[current_index]->get_b()}) == 1) {
+                    if (current_index == first_index)
+                        return lines_.begin();
+                    last_index = current_index;
+                } else {
+                    if (current_index + 1 == last_index)
+                        return lines_.begin() + last_index;
+                    first_index = current_index;
+                }
             }
         }
 

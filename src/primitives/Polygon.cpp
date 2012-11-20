@@ -12,6 +12,21 @@ std::list<Point> const& Polygon::get_points() const {
     return points_;
 }
 
+std::list<Line> const Polygon::as_lines() const {
+    std::list<Line> lines;
+
+    auto last_point(points_.begin());
+    auto current_point(++points_.begin());
+
+    while (current_point != points_.end()) {
+        lines.push_back(Line(*last_point, *current_point));
+        last_point = current_point;
+        ++current_point;
+    }
+
+    return lines;
+}
+
 void Polygon::add_point(Point const& point) {
     points_.push_back(point);
 }

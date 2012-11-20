@@ -2,6 +2,7 @@
 #define POLYGON_HPP
 
 #include "primitives/Point.hpp"
+#include "primitives/Line.hpp"
 
 #include <list>
 
@@ -13,6 +14,7 @@ class Polygon {
         Polygon(std::list<Point> const& points);
 
         std::list<Point> const& get_points() const;
+        std::list<Line> const as_lines() const;
 
         void add_point(Point const& point);
 
