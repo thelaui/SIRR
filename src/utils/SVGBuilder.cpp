@@ -28,7 +28,6 @@ void SVGBuilder::build(std::string const& path_to_file, std::list<Line> const& l
         min_y_ = std::min(min_y_, std::min(y1, y2));
 
     }
-
     std::ofstream file(path_to_file);
     auto extends(to_pixel(Point(max_x_, 0.f)));
 
@@ -52,8 +51,8 @@ void SVGBuilder::build(std::string const& path_to_file, std::list<Line> const& l
 }
 
 Point const SVGBuilder::to_pixel(Point const& p) const {
-    return Point(p.get_x() / (max_x_ - min_x_) * 1000.f + 20.f + std::abs(int(min_x_)),
-                  (max_y_ - p.get_y()) / (max_y_ - min_y_) * 1000.f + 20.f + std::abs(int(min_y_)));
+    return Point((p.get_x()  + std::abs(int(min_x_))) / (max_x_ - min_x_) * 1000.f + 20.f,
+                  (max_y_ - (p.get_y() + std::abs(int(min_y_)))) / (max_y_ - min_y_) * 1000.f + 20.f);
 }
 
 std::string const SVGBuilder::get_line_string(Line const& line) const {

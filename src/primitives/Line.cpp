@@ -28,7 +28,7 @@ Point const Line::intersects(Line const& l) const {
     float x(0.f), y(0.f), z(-1.f);
 
     OrientationChecker checker;
-    std::cout << "Checking intersection of " << *this << " and " << l << std::endl;
+//    std::cout << "Checking intersection of " << *this << " and " << l << std::endl;
 
     float check_1(checker.check({a_, b_, l.a_})), check_2(checker.check({a_, b_, l.b_})),
            check_3( checker.check({a_, l.a_, l.b_})), check_4(checker.check({b_, l.a_, l.b_}));
@@ -50,7 +50,7 @@ Point const Line::intersects(Line const& l) const {
                     fract;
                 z = 0.f;
 
-                std::cout << "Found intersection at " << Point(x, y, z) << std::endl;
+//                std::cout << "Found intersection at " << Point(x, y, z) << std::endl;
             }
 
         }

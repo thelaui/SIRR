@@ -19,19 +19,19 @@ Point const StatusStructure::process_event(Event* event, EventStructure& event_s
     switch (type) {
         case Event::START: {
             StartEvent* start_event(reinterpret_cast<StartEvent*>(event));
-            std::cout << "Processing " << *start_event << std::endl;
+            //std::cout << "Processing " << *start_event << std::endl;
             add_line(start_event, event_structure);
         } break;
 
         case Event::END: {
             EndEvent* end_event(reinterpret_cast<EndEvent*>(event));
-            std::cout << "Processing " << *end_event << std::endl;
+            //std::cout << "Processing " << *end_event << std::endl;
             remove_line(end_event, event_structure);
         } break;
 
         case Event::INTERSECTION: {
             IntersectionEvent* intersection_event(reinterpret_cast<IntersectionEvent*>(event));
-            std::cout << "Processing " << *intersection_event << std::endl;
+            //std::cout << "Processing " << *intersection_event << std::endl;
             swap(intersection_event, event_structure);
             result = intersection_event->get_position();
         } break;
@@ -39,7 +39,7 @@ Point const StatusStructure::process_event(Event* event, EventStructure& event_s
         default: break;
 
     }
-    std::cout << std::endl;
+//    std::cout << std::endl;
 
     return result;
 }
@@ -101,7 +101,7 @@ void StatusStructure::swap(IntersectionEvent* event, EventStructure& event_struc
     if (swap_left > lines_.begin()) {
         intersection_left = event->get_l2()->intersects(**(swap_left - 1));
         if (intersection_left.get_z() != -1.f && intersection_left.get_y() >= event->get_position().get_y())
-            event_structure.add_event(new IntersectionEvent(intersection_left, event->get_l2(), *(swap_left - 1)));
+            event_structure.add_event(new IntersectionEvent(intersection_left, *(swap_left - 1), event->get_l2()));
     }
 
     auto tmp = *swap_left;
@@ -114,17 +114,6 @@ std::vector<Line*>::iterator StatusStructure::find_higher(Line* query_line) {
 
     if (lines_.size() == 0) {
         return lines_.begin();
-//    } else if (lines_.size() == 1) {
-//        float orientation(checker.check({query_line->get_a(), lines_[0]->get_a(), lines_[0]->get_b()}));
-//        if (orientation == 1) {
-//            return lines_.begin();
-//        } else if (orientation == -1) {
-//            return lines_.end();
-//        } else {
-//            if (query_line->get_b().get_x() > lines_[0]->get_b().get_x())
-//                return lines_.end();
-//            else return lines_.begin();
-//        }
     } else {
         int first_index(0), last_index(lines_.size()), current_index(0);
 

@@ -3,9 +3,9 @@
 
 #include "algorithms/Event.hpp"
 
-namespace SIRR {
+#include "primitives/Line.hpp"
 
-class Line;
+namespace SIRR {
 
 class IntersectionEvent : public Event {
     public:
