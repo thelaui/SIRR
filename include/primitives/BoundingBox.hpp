@@ -31,6 +31,32 @@ class BoundingBox {
             }
         }
 
+        bool contains(Point<dim> const& point) const {
+
+            for (unsigned i(0); i < dim; ++i) {
+                if (point.get(i) < min_.get(i) || point.get(i) > max_.get(i))
+                    return false;
+            }
+
+            return true;
+        }
+
+        bool is_inside(BoundingBox<dim> const& box) const {
+            return box.contains(min_) && box.contains(max_);
+        }
+
+        bool intersects(BoundingBox<dim> const& box) const {
+            BoundingBox closure({min_, max_, box.min_, box.max_});
+            for (unsigned i(0); i < dim; ++i) {
+                if ((max_.get(i) - min_.get(i)) +
+                    (box.max_.get(i) - box.min_.get(i)) <
+                    (closure.max_.get(i) - closure.min_.get(i)))
+                    return false;
+            }
+
+            return true;
+        }
+
         Point<dim> const& get_min() const {
             return min_;
         }
