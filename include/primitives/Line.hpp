@@ -3,23 +3,23 @@
 
 #include <ostream>
 
-#include "primitives/Point.hpp"
+#include "primitives/Point3D.hpp"
 
 namespace SIRR {
 
 class Line {
     public:
-        Line(Point const& a, Point const& b);
+        Line(Point3D const& a, Point3D const& b);
 
-        Point const& get_a() const;
-        Point const& get_b() const;
+        Point3D const& get_a() const;
+        Point3D const& get_b() const;
 
-        Point const intersects(Line const& l) const;
+        Point3D const intersects(Line const& l) const;
 
         void print(std::ostream& os) const;
 
     private:
-        Point a_, b_;
+        Point3D a_, b_;
 };
 
 

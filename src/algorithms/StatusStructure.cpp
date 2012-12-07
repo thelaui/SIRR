@@ -12,8 +12,8 @@ namespace SIRR {
 StatusStructure::StatusStructure():
     lines_() {}
 
-Point const StatusStructure::process_event(Event* event, EventStructure& event_structure) {
-    Point result(0.f, 0.f, -1.f);
+Point3D const StatusStructure::process_event(Event* event, EventStructure& event_structure) {
+    Point3D result(0.f, 0.f, -1.f);
     Event::EventType type(event->get_type());
 
     switch (type) {
@@ -52,8 +52,8 @@ void StatusStructure::print(std::ostream& os) const {
 void StatusStructure::add_line(StartEvent* event, EventStructure& event_structure) {
     auto insert_position(find_higher(event->get_l()));
 
-    auto intersection_right(Point(0.f, 0.f, -1.f));
-    auto intersection_left(Point(0.f, 0.f, -1.f));
+    auto intersection_right(Point3D(0.f, 0.f, -1.f));
+    auto intersection_left(Point3D(0.f, 0.f, -1.f));
 
     if (insert_position != lines_.end()) {
         if (insert_position != lines_.end()) {
@@ -74,7 +74,7 @@ void StatusStructure::add_line(StartEvent* event, EventStructure& event_structur
 
 void StatusStructure::remove_line(EndEvent* event, EventStructure& event_structure) {
     auto deletion_position(find_closest(event->get_l()));
-    auto intersection(Point(0.f, 0.f, -1.f));
+    auto intersection(Point3D(0.f, 0.f, -1.f));
 
     if (deletion_position > lines_.begin() && deletion_position < lines_.end()-1) {
         intersection = (*(deletion_position - 1))->intersects(**(deletion_position+1));
@@ -89,8 +89,8 @@ void StatusStructure::remove_line(EndEvent* event, EventStructure& event_structu
 void StatusStructure::swap(IntersectionEvent* event, EventStructure& event_structure) {
     auto swap_left(find_closest(event->get_l1()));
     auto swap_right(find_closest(event->get_l2()));
-    auto intersection_right(Point(0.f, 0.f, -1.f));
-    auto intersection_left(Point(0.f, 0.f, -1.f));
+    auto intersection_right(Point3D(0.f, 0.f, -1.f));
+    auto intersection_left(Point3D(0.f, 0.f, -1.f));
 
     if (swap_right < lines_.end() - 1) {
         intersection_right = event->get_l1()->intersects(**(swap_right + 1));

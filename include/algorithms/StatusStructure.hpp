@@ -3,7 +3,7 @@
 
 #include <vector>
 
-#include "primitives/Point.hpp"
+#include "primitives/Point3D.hpp"
 #include "algorithms/OrientationChecker.hpp"
 #include "algorithms/EventStructure.hpp"
 
@@ -18,7 +18,7 @@ class StatusStructure {
     public:
         StatusStructure();
 
-        Point const process_event(Event* event, EventStructure& event_structure);
+        Point3D const process_event(Event* event, EventStructure& event_structure);
 
         void print(std::ostream& os) const;
 

@@ -1,7 +1,7 @@
 #ifndef ORIENTATION_CHECKER_HPP
 #define ORIENTATION_CHECKER_HPP
 
-#include "primitives/Point.hpp"
+#include "primitives/Point3D.hpp"
 
 #include <vector>
 
@@ -12,7 +12,7 @@ class OrientationChecker {
         OrientationChecker();
 
         // CCW = 1, COLL = 0, CW = -1
-        int check(std::vector<Point> const& points) const;
+        int check(std::vector<Point3D> const& points) const;
 
 };
 

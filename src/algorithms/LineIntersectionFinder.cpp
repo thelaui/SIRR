@@ -11,11 +11,11 @@ namespace SIRR {
 
 LineIntersectionFinder::LineIntersectionFinder() {}
 
-std::list<Point> const LineIntersectionFinder::find_intersections(std::list<Line>& lines) const {
+std::list<Point3D> const LineIntersectionFinder::find_intersections(std::list<Line>& lines) const {
     EventStructure event_structure;
     StatusStructure status_structure;
 
-    std::list<Point> intersections;
+    std::list<Point3D> intersections;
 
     for (auto line = lines.begin(); line != lines.end(); ++line) {
         event_structure.add_event(new StartEvent(line->get_a(), &(*line)));
@@ -26,7 +26,7 @@ std::list<Point> const LineIntersectionFinder::find_intersections(std::list<Line
 //        std::cout << "Event structure:\n" << event_structure << std::endl;
         Event* event(event_structure.get_top());
         event_structure.delete_top();
-        Point intersection(status_structure.process_event(event, event_structure));
+        Point3D intersection(status_structure.process_event(event, event_structure));
         if (intersection.get_z() != -1)
             intersections.push_back(intersection);
 

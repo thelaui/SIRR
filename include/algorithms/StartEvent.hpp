@@ -9,7 +9,7 @@ class Line;
 
 class StartEvent : public Event {
     public:
-        StartEvent(Point const& position, Line* l):
+        StartEvent(Point3D const& position, Line* l):
             Event(position, Event::START),
             l_(l) {}
 

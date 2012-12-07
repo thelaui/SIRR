@@ -6,7 +6,7 @@
 
 namespace SIRR {
 
-Line::Line(Point const& a, Point const& b):
+Line::Line(Point3D const& a, Point3D const& b):
     a_(a),
     b_(b) {
         if (a_.get_y() > b_.get_y())
@@ -16,15 +16,15 @@ Line::Line(Point const& a, Point const& b):
                 std::swap(a_, b_);
     }
 
-Point const& Line::get_a() const {
+Point3D const& Line::get_a() const {
     return a_;
 }
 
-Point const& Line::get_b() const {
+Point3D const& Line::get_b() const {
     return b_;
 }
 
-Point const Line::intersects(Line const& l) const {
+Point3D const Line::intersects(Line const& l) const {
     float x(0.f), y(0.f), z(-1.f);
 
     OrientationChecker checker;
@@ -50,13 +50,13 @@ Point const Line::intersects(Line const& l) const {
                     fract;
                 z = 0.f;
 
-//                std::cout << "Found intersection at " << Point(x, y, z) << std::endl;
+//                std::cout << "Found intersection at " << Point3D(x, y, z) << std::endl;
             }
 
         }
     }
 
-    return Point(x, y, z);
+    return Point3D(x, y, z);
 }
 
 

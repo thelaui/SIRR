@@ -14,7 +14,7 @@ std::list<Polygon> const Plyfile::load_from(std::string const& path_to_file) con
     std::ifstream file(path_to_file);
     std::list<Polygon> result;
 
-    std::vector<Point> vertices;
+    std::vector<Point3D> vertices;
 
     std::string line;
     unsigned vertex_number(0);
@@ -46,7 +46,7 @@ std::list<Polygon> const Plyfile::load_from(std::string const& path_to_file) con
 
                 //Always do a planar projection on xy-plane
                 coords >> x >> y;
-                vertices.push_back(Point(x, y, z));
+                vertices.push_back(Point3D(x, y, z));
                 if (--vertex_number == 0)
                     vertices_ended = true;
 
@@ -103,7 +103,7 @@ Polygon const Plyfile::load_as_one_polygon(std::string const& path_to_file) cons
 
             //Do always planar projections on xy-plane
             coords >> x >> y;
-            result.add_point(Point(x, y, z));
+            result.add_point(Point3D(x, y, z));
             --vertex_number;
         }
 

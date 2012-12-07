@@ -5,10 +5,10 @@ namespace SIRR {
 Polygon::Polygon():
     points_() {}
 
-Polygon::Polygon(std::list<Point> const& points):
+Polygon::Polygon(std::list<Point3D> const& points):
     points_(points) {}
 
-std::list<Point> const& Polygon::get_points() const {
+std::list<Point3D> const& Polygon::get_points() const {
     return points_;
 }
 
@@ -27,7 +27,7 @@ std::list<Line> const Polygon::as_lines() const {
     return lines;
 }
 
-void Polygon::add_point(Point const& point) {
+void Polygon::add_point(Point3D const& point) {
     points_.push_back(point);
 }
 

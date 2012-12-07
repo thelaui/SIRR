@@ -11,7 +11,7 @@ class LineIntersectionFinder {
     public:
         LineIntersectionFinder();
 
-        std::list<Point> const find_intersections(std::list<Line>& lines) const;
+        std::list<Point3D> const find_intersections(std::list<Line>& lines) const;
 };
 
 }

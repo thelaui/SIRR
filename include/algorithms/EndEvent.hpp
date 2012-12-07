@@ -9,7 +9,7 @@ class Line;
 
 class EndEvent : public Event {
     public:
-        EndEvent(Point const& position, Line* l):
+        EndEvent(Point3D const& position, Line* l):
             Event(position, Event::END),
             l_(l) {}
 

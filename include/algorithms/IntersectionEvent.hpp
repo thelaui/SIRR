@@ -9,7 +9,7 @@ namespace SIRR {
 
 class IntersectionEvent : public Event {
     public:
-        IntersectionEvent(Point const& position, Line* l1, Line* l2):
+        IntersectionEvent(Point3D const& position, Line* l1, Line* l2):
             Event(position, Event::INTERSECTION),
             l1_(l1),
             l2_(l2) {}

@@ -2,13 +2,13 @@
 
 namespace SIRR {
 
-Event::Event(Point const& position, EventType type):
+Event::Event(Point3D const& position, EventType type):
     position_(position),
     type_(type) {}
 
 Event::~Event() {}
 
-Point const& Event::get_position() const {
+Point3D const& Event::get_position() const {
     return position_;
 }
 

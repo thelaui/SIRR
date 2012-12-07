@@ -13,7 +13,7 @@ SVGBuilder::SVGBuilder():
     min_y_(0.f),
     labels_enabled_(true){}
 
-void SVGBuilder::build(std::string const& path_to_file, std::list<Line> const& lines, std::list<Point> const& points, bool enable_labels) {
+void SVGBuilder::build(std::string const& path_to_file, std::list<Line> const& lines, std::list<Point3D> const& points, bool enable_labels) {
     labels_enabled_ = enable_labels;
 
     for (auto line : lines) {
@@ -29,7 +29,7 @@ void SVGBuilder::build(std::string const& path_to_file, std::list<Line> const& l
 
     }
     std::ofstream file(path_to_file);
-    auto extends(to_pixel(Point(max_x_, 0.f)));
+    auto extends(to_pixel(Point3D(max_x_, 0.f)));
 
     file << "<!DOCTYPE html>\n<html>\n<body bgcolor=\"white\">\n\n<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" "
          << "width=\""<< int(extends.get_x() + 50.f) <<"px\" "
@@ -50,8 +50,8 @@ void SVGBuilder::build(std::string const& path_to_file, std::list<Line> const& l
     file.close();
 }
 
-Point const SVGBuilder::to_pixel(Point const& p) const {
-    return Point((p.get_x()  + std::abs(int(min_x_))) / (max_x_ - min_x_) * 1000.f + 20.f,
+Point3D const SVGBuilder::to_pixel(Point3D const& p) const {
+    return Point3D((p.get_x()  + std::abs(int(min_x_))) / (max_x_ - min_x_) * 1000.f + 20.f,
                   (max_y_ - (p.get_y() + std::abs(int(min_y_)))) / (max_y_ - min_y_) * 1000.f + 20.f);
 }
 
@@ -80,7 +80,7 @@ std::string const SVGBuilder::get_text_string(std::string const& text, int pos_x
     return text_stream.str();
 }
 
-std::string const SVGBuilder::get_circle_string(Point const& point, int radius,
+std::string const SVGBuilder::get_circle_string(Point3D const& point, int radius,
                                              int r, int g, int b, int sr, int sg, int sb) const {
     auto p(to_pixel(point));
     std::stringstream circle_stream;

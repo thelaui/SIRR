@@ -1,7 +1,7 @@
 #ifndef EVENT_HPP
 #define EVENT_HPP
 
-#include "primitives/Point.hpp"
+#include "primitives/Point3D.hpp"
 
 namespace SIRR {
 
@@ -9,10 +9,10 @@ class Event {
     public:
         enum EventType{START, END, INTERSECTION};
 
-        Event(Point const& position, EventType type);
+        Event(Point3D const& position, EventType type);
         virtual ~Event();
 
-        Point const& get_position() const;
+        Point3D const& get_position() const;
 
         EventType get_type() const;
 
@@ -27,7 +27,7 @@ class Event {
         void print(std::ostream& os) const;
 
     protected:
-        Point position_;
+        Point3D position_;
         EventType type_;
 };
 

@@ -12,18 +12,18 @@ Polygon const ConvexHullBuilder::build_hull(Polygon const& polygon) const{
     if (polygon.get_points().size() < 3)
         return polygon;
 
-    std::list<Point> tmp(polygon.get_points());
+    std::list<Point3D> tmp(polygon.get_points());
     tmp.sort(COMPARE_X);
 
-    std::list<Point> hull(build_half_hull(std::vector<Point>(tmp.begin(), tmp.end()), -1));
-    std::list<Point> lower_hull(build_half_hull(std::vector<Point>(tmp.rbegin(), tmp.rend()), -1));
+    std::list<Point3D> hull(build_half_hull(std::vector<Point3D>(tmp.begin(), tmp.end()), -1));
+    std::list<Point3D> lower_hull(build_half_hull(std::vector<Point3D>(tmp.rbegin(), tmp.rend()), -1));
 
     hull.insert(hull.end(), ++lower_hull.begin(), --lower_hull.end());
     return Polygon(hull);
 }
 
-std::list<Point> const ConvexHullBuilder::build_half_hull(std::vector<Point> const& sorted_points, int orientation) const {
-    std::list<Point> result;
+std::list<Point3D> const ConvexHullBuilder::build_half_hull(std::vector<Point3D> const& sorted_points, int orientation) const {
+    std::list<Point3D> result;
     result.push_back(sorted_points[0]);
     result.push_back(sorted_points[1]);
 
