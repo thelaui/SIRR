@@ -4,8 +4,9 @@
 #include "SFML/Graphics.hpp"
 
 #include <string>
+#include <list>
 
-#include "primitives/Polygon.hpp"
+#include "primitives/Line.hpp"
 
 namespace SIRR {
 
@@ -20,7 +21,7 @@ class RenderWindow {
 
         void draw(std::list<Point<3>> const& points,
                   unsigned pr = 200, unsigned pg = 240, unsigned pb = 120,
-                  std::list<Line> const& lines = std::list<Line>(),
+                  std::list<Line<3>> const& lines = std::list<Line<3>>(),
                   unsigned lr = 100, unsigned lg = 100, unsigned lb = 100);
 
 

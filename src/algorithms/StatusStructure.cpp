@@ -3,7 +3,7 @@
 #include "algorithms/StartEvent.hpp"
 #include "algorithms/EndEvent.hpp"
 #include "algorithms/IntersectionEvent.hpp"
-#include "primitives/Line.hpp"
+#include "primitives/Line3D.hpp"
 
 #include <iostream>
 
@@ -109,7 +109,7 @@ void StatusStructure::swap(IntersectionEvent* event, EventStructure& event_struc
     *swap_right = tmp;
 }
 
-std::vector<Line*>::iterator StatusStructure::find_higher(Line* query_line) {
+std::vector<Line3D*>::iterator StatusStructure::find_higher(Line3D* query_line) {
     OrientationChecker const checker;
 
     if (lines_.size() == 0) {
@@ -145,7 +145,7 @@ std::vector<Line*>::iterator StatusStructure::find_higher(Line* query_line) {
 
 }
 
-std::vector<Line*>::iterator StatusStructure::find_closest(Line* line) {
+std::vector<Line3D*>::iterator StatusStructure::find_closest(Line3D* line) {
     auto closest = find_higher(line);
 
     if (*closest != line) {

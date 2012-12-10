@@ -12,14 +12,14 @@ std::list<Point3D> const& Polygon::get_points() const {
     return points_;
 }
 
-std::list<Line> const Polygon::as_lines() const {
-    std::list<Line> lines;
+std::list<Line3D> const Polygon::as_lines() const {
+    std::list<Line3D> lines;
 
     auto last_point(points_.begin());
     auto current_point(++points_.begin());
 
     while (current_point != points_.end()) {
-        lines.push_back(Line(*last_point, *current_point));
+        lines.push_back(Line3D(*last_point, *current_point));
         last_point = current_point;
         ++current_point;
     }

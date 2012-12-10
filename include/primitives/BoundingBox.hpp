@@ -4,7 +4,7 @@
 #include <cfloat>
 #include <set>
 
-#include "primitives/Point.hpp"
+#include "primitives/Line.hpp"
 #include "utils/debug.hpp"
 
 namespace SIRR {
@@ -21,7 +21,7 @@ class BoundingBox {
                     include(point);
             }
 
-        BoundingBox(std::multiset<Point<dim>, COMPARE_POINTS_LESS<dim>> const& points):
+        BoundingBox(std::vector<Point<dim>> const& points):
             min_(std::vector<float>(dim, FLT_MAX)),
             max_() {
 
@@ -35,7 +35,9 @@ class BoundingBox {
             for (unsigned i(0); i < dim; ++i) {
                 if (point.get(i) < min_.get(i)) {
                     min_.set(i, point.get(i));
-                } else if (point.get(i) > max_.get(i)) {
+                }
+
+                if (point.get(i) > max_.get(i)) {
                     max_.set(i, point.get(i));
                 }
             }
@@ -56,7 +58,8 @@ class BoundingBox {
         }
 
         bool intersects(BoundingBox<dim> const& box) const {
-            BoundingBox closure({min_, max_, box.min_, box.max_});
+            std::list<Point<dim>> points({min_, max_, box.min_, box.max_});
+            BoundingBox<dim> closure(points);
             for (unsigned i(0); i < dim; ++i) {
                 if ((max_.get(i) - min_.get(i)) +
                     (box.max_.get(i) - box.min_.get(i)) <
@@ -73,6 +76,16 @@ class BoundingBox {
 
         Point<dim> const& get_max() const {
             return max_;
+        }
+
+        std::list<Line<3>> const as_2D_lines() const {
+            std::list<Line<3>> lines;
+            lines.push_back(Line<3>(min_, Point<3>({max_.get(0), min_.get(1), 0})));
+            lines.push_back(Line<3>(min_, Point<3>({min_.get(0), max_.get(1), 0})));
+            lines.push_back(Line<3>(max_, Point<3>({max_.get(0), min_.get(1), 0})));
+            lines.push_back(Line<3>(max_, Point<3>({min_.get(0), max_.get(1), 0})));
+
+            return lines;
         }
 
         void print(std::ostream& os) const {

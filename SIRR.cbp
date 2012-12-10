@@ -54,6 +54,7 @@
 		<Unit filename="include/algorithms/StatusStructure.hpp" />
 		<Unit filename="include/primitives/BoundingBox.hpp" />
 		<Unit filename="include/primitives/Line.hpp" />
+		<Unit filename="include/primitives/Line3D.hpp" />
 		<Unit filename="include/primitives/Point.hpp" />
 		<Unit filename="include/primitives/Point3D.hpp" />
 		<Unit filename="include/primitives/Polygon.hpp" />
@@ -68,7 +69,7 @@
 		<Unit filename="src/algorithms/LineIntersectionFinder.cpp" />
 		<Unit filename="src/algorithms/OrientationChecker.cpp" />
 		<Unit filename="src/algorithms/StatusStructure.cpp" />
-		<Unit filename="src/primitives/Line.cpp" />
+		<Unit filename="src/primitives/Line3D.cpp" />
 		<Unit filename="src/primitives/Point3D.cpp" />
 		<Unit filename="src/primitives/Polygon.cpp" />
 		<Unit filename="src/utils/Plyfile.cpp" />

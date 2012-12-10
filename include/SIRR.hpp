@@ -11,6 +11,7 @@
 #include "primitives/Point3D.hpp"
 #include "primitives/Polygon.hpp"
 #include "primitives/Line.hpp"
+#include "primitives/Line3D.hpp"
 #include "primitives/BoundingBox.hpp"
 #include "utils/Plyfile.hpp"
 #include "utils/sclap.hpp"

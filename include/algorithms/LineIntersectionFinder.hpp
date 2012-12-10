@@ -3,7 +3,7 @@
 
 #include <list>
 
-#include "primitives/Line.hpp"
+#include "primitives/Line3D.hpp"
 
 namespace SIRR {
 
@@ -11,7 +11,7 @@ class LineIntersectionFinder {
     public:
         LineIntersectionFinder();
 
-        std::list<Point3D> const find_intersections(std::list<Line>& lines) const;
+        std::list<Point3D> const find_intersections(std::list<Line3D>& lines) const;
 };
 
 }

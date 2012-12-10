@@ -2,7 +2,7 @@
 #define POLYGON_HPP
 
 #include "primitives/Point3D.hpp"
-#include "primitives/Line.hpp"
+#include "primitives/Line3D.hpp"
 
 #include <list>
 
@@ -14,7 +14,7 @@ class Polygon {
         Polygon(std::list<Point3D> const& points);
 
         std::list<Point3D> const& get_points() const;
-        std::list<Line> const as_lines() const;
+        std::list<Line3D> const as_lines() const;
 
         void add_point(Point3D const& point);
 

@@ -9,7 +9,7 @@
 
 namespace SIRR {
 
-class Line;
+class Line3D;
 class StartEvent;
 class EndEvent;
 class IntersectionEvent;
@@ -24,15 +24,15 @@ class StatusStructure {
 
 
     private:
-        std::vector<Line*> lines_;
+        std::vector<Line3D*> lines_;
 
         void add_line(StartEvent* event, EventStructure& event_structure);
         void remove_line(EndEvent* event, EventStructure& event_structure);
         void swap(IntersectionEvent* event, EventStructure& event_structure);
 
 
-        std::vector<Line*>::iterator find_higher(Line* query_line);
-        std::vector<Line*>::iterator find_closest(Line* line);
+        std::vector<Line3D*>::iterator find_higher(Line3D* query_line);
+        std::vector<Line3D*>::iterator find_closest(Line3D* line);
 
 };
 

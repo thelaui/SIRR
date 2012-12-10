@@ -7,8 +7,8 @@ namespace SIRR {
 
 RenderWindow::RenderWindow(unsigned width, unsigned height, std::string const& title):
     window_(sf::VideoMode(width, height), title),
-    max_({0.f, 0.f, 0.f}),
-    min_({0.f, 0.f, 0.f}) {}
+    max_(),
+    min_(std::vector<float>(3, FLT_MAX)) {}
 
 bool RenderWindow::is_open() const{
 
@@ -32,7 +32,7 @@ void RenderWindow::flush() {
 
 void RenderWindow::draw(std::list<Point<3>> const& points,
                         unsigned pr, unsigned pg, unsigned pb,
-                        std::list<Line> const& lines,
+                        std::list<Line<3>> const& lines,
                         unsigned lr, unsigned lg, unsigned lb) {
 
     BoundingBox<3> dimensions(points);
@@ -41,15 +41,10 @@ void RenderWindow::draw(std::list<Point<3>> const& points,
         dimensions.include(line.get_b());
     }
 
-    min_ = dimensions.get_min();
-    max_ = dimensions.get_max();
-
-    for (auto point : points) {
-        Point<3> p(world_to_screen_coord(point));
-        window_.Draw(sf::Shape::Circle(p.get(0), p.get(1), 3.f,
-                                       sf::Color(pr, pg, pb),
-                                       2.f, sf::Color(100, 100, 100)));
-    }
+    if (dimensions.get_min() < min_)
+        min_ = dimensions.get_min();
+    if (dimensions.get_max() > max_)
+        max_ = dimensions.get_max();
 
     for (auto line : lines) {
         Point<3> a(world_to_screen_coord(line.get_a()));
@@ -59,6 +54,14 @@ void RenderWindow::draw(std::list<Point<3>> const& points,
                                      b.get(0), b.get(1),
                                      2.f, sf::Color(lr, lg, lb)));
     }
+
+    for (auto point : points) {
+        Point<3> p(world_to_screen_coord(point));
+        window_.Draw(sf::Shape::Circle(p.get(0), p.get(1), 3.f,
+                                       sf::Color(pr, pg, pb),
+                                       2.f, sf::Color(100, 100, 100)));
+    }
+
 }
 
 

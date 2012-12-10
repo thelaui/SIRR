@@ -1,5 +1,5 @@
-#ifndef POINT_2D_HPP
-#define POINT_2D_HPP
+#ifndef POINT_3D_HPP
+#define POINT_3D_HPP
 
 #include <ostream>
 
@@ -28,4 +28,4 @@ bool COMPARE_Y(Point3D const& lhs, Point3D const& rhs);
 
 }
 
-#endif //POINT_2D_HPP
+#endif //POINT_3D_HPP

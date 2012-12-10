@@ -3,29 +3,42 @@
 
 #include <ostream>
 
-#include "primitives/Point3D.hpp"
+#include "primitives/Point.hpp"
 
 namespace SIRR {
 
+template <unsigned dim>
 class Line {
     public:
-        Line(Point3D const& a, Point3D const& b);
+        Line(Point<dim> const& a, Point<dim> const& b):
+            a_(a),
+            b_(b) {}
 
-        Point3D const& get_a() const;
-        Point3D const& get_b() const;
+        Point<dim> const& get_a() const {
+            return a_;
+        }
 
-        Point3D const intersects(Line const& l) const;
+        Point<dim> const& get_b() const {
+            return b_;
+        }
 
-        void print(std::ostream& os) const;
+        void print(std::ostream& os) const {
+            os << a_ << " - " << b_;
+        }
 
     private:
-        Point3D a_, b_;
+        Point<dim> a_, b_;
 };
 
 
 }
 
-std::ostream& operator<< (std::ostream& os, SIRR::Line const& line);
+template <unsigned dim>
+std::ostream& operator<< (std::ostream& os, SIRR::Line<dim> const& line) {
+    line.print(os);
+    return os;
+}
 
 #endif //LINE_HPP
+
 

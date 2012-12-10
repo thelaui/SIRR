@@ -6,7 +6,7 @@ int main(int argc, const char** argv) {
 
     SIRR::Plyfile file;
     auto polygons(file.load_from("data/simple.ply"));
-    std::list<SIRR::Line> merge_list;
+    std::list<SIRR::Line3D> merge_list;
     for (auto polygon : polygons)
         for (auto line : polygon.as_lines())
              merge_list.push_back(line);

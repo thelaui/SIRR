@@ -11,7 +11,7 @@ namespace SIRR {
 
 LineIntersectionFinder::LineIntersectionFinder() {}
 
-std::list<Point3D> const LineIntersectionFinder::find_intersections(std::list<Line>& lines) const {
+std::list<Point3D> const LineIntersectionFinder::find_intersections(std::list<Line3D>& lines) const {
     EventStructure event_structure;
     StatusStructure status_structure;
 

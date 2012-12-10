@@ -13,7 +13,7 @@ SVGBuilder::SVGBuilder():
     min_y_(0.f),
     labels_enabled_(true){}
 
-void SVGBuilder::build(std::string const& path_to_file, std::list<Line> const& lines, std::list<Point3D> const& points, bool enable_labels) {
+void SVGBuilder::build(std::string const& path_to_file, std::list<Line3D> const& lines, std::list<Point3D> const& points, bool enable_labels) {
     labels_enabled_ = enable_labels;
 
     for (auto line : lines) {
@@ -55,7 +55,7 @@ Point3D const SVGBuilder::to_pixel(Point3D const& p) const {
                   (max_y_ - (p.get_y() + std::abs(int(min_y_)))) / (max_y_ - min_y_) * 1000.f + 20.f);
 }
 
-std::string const SVGBuilder::get_line_string(Line const& line) const {
+std::string const SVGBuilder::get_line_string(Line3D const& line) const {
     auto a(to_pixel(line.get_a()));
     auto b(to_pixel(line.get_b()));
 

@@ -48,6 +48,24 @@ class Point {
             return true;
         }
 
+        bool operator<(Point<dim> const& rhs) const {
+            for (unsigned i(0); i < dim; ++i) {
+                if (coords_[i] > rhs.coords_[i])
+                    return false;
+            }
+
+            return true;
+        }
+
+        bool operator>(Point<dim> const& rhs) const {
+            for (unsigned i(0); i < dim; ++i) {
+                if (coords_[i] < rhs.coords_[i])
+                    return false;
+            }
+
+            return true;
+        }
+
         Point<dim> const operator+(Point<dim> const& rhs) const {
             std::vector<float> new_coords(dim);
             for (unsigned i(0); i < dim; ++i)
