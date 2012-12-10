@@ -2,6 +2,7 @@
 #define BOUNDING_BOX_HPP
 
 #include <cfloat>
+#include <set>
 
 #include "primitives/Point.hpp"
 #include "utils/debug.hpp"
@@ -12,13 +13,22 @@ template <unsigned dim>
 
 class BoundingBox {
     public:
-        BoundingBox(std::list<Point<dim>> const& points):
+        BoundingBox(std::list<Point<dim>> const& points = std::list<Point<dim>>()):
             min_(std::vector<float>(dim, FLT_MAX)),
             max_() {
 
                 for (auto point : points)
                     include(point);
             }
+
+        BoundingBox(std::multiset<Point<dim>, COMPARE_POINTS_LESS<dim>> const& points):
+            min_(std::vector<float>(dim, FLT_MAX)),
+            max_() {
+
+                for (auto point : points)
+                    include(point);
+            }
+
 
         void include(Point<dim> const& point) {
 

@@ -26,22 +26,14 @@ int main(int argc, const char** argv) {
 //        window.flush();
 //    }
 
-    SIRR::Point<3> p1({0,0,0});
-    SIRR::Point<3> p2({5,5,0});
-    SIRR::Point<3> p3({2,2,0});
-    SIRR::Point<3> p4({3,2,0});
-
-    SIRR::BoundingBox<3> large_box({p1, p2});
-    SIRR::BoundingBox<3> small_box({p3, p4});
-
-    if (small_box.is_inside(large_box))
-        std::cout << "small in large" << std::endl;
-    if (large_box.is_inside(small_box))
-        std::cout << "large in small" << std::endl;
-    if (large_box.intersects(small_box))
-        std::cout << "large intersects small" << std::endl;
-    if (small_box.intersects(large_box))
-        std::cout << "small intersects large" << std::endl;
+    SIRR::Point<2> p1({5,3});
+    SIRR::Point<2> p2({4,4});
+    SIRR::Point<2> p3({2,2});
+    SIRR::Point<2> p4({3,2});
+    std::list<SIRR::Point<2>> l({p1,p2,p3,p4});
+    SIRR::KDTree<2> tree;
+    tree.build(l);
+    std::cout << tree << std::endl;
 
 
     return 0;

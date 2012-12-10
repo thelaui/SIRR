@@ -80,6 +80,27 @@ class Point {
         std::vector<float> coords_;
 };
 
+
+template <unsigned dim>
+struct COMPARE_POINTS_LESS {
+    COMPARE_POINTS_LESS(unsigned comp_pos):
+        comp_pos_(comp_pos) {}
+
+    bool operator()(Point<dim> const& lhs, Point<dim> const& rhs) const{
+        if (lhs.get(comp_pos_) == rhs.get(comp_pos_)) {
+            for (unsigned pos(0); pos < dim; ++pos) {
+                if (pos != comp_pos_ && lhs.get(pos) != rhs.get(pos))
+                    return lhs.get(pos) < rhs.get(pos);
+            }
+            return false;
+        }
+        else
+            return lhs.get(comp_pos_) < rhs.get(comp_pos_);
+    }
+
+    unsigned comp_pos_;
+};
+
 }
 
 template <unsigned dim>

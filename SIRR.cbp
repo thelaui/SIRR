@@ -47,6 +47,7 @@
 		<Unit filename="include/algorithms/Event.hpp" />
 		<Unit filename="include/algorithms/EventStructure.hpp" />
 		<Unit filename="include/algorithms/IntersectionEvent.hpp" />
+		<Unit filename="include/algorithms/KDTree.hpp" />
 		<Unit filename="include/algorithms/LineIntersectionFinder.hpp" />
 		<Unit filename="include/algorithms/OrientationChecker.hpp" />
 		<Unit filename="include/algorithms/StartEvent.hpp" />
