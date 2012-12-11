@@ -13,6 +13,7 @@
 #include "primitives/Line.hpp"
 #include "primitives/Line3D.hpp"
 #include "primitives/BoundingBox.hpp"
+#include "primitives/HyperCircle.hpp"
 #include "utils/Plyfile.hpp"
 #include "utils/sclap.hpp"
 #include "utils/SVGBuilder.hpp"

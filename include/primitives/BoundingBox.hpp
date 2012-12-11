@@ -2,18 +2,19 @@
 #define BOUNDING_BOX_HPP
 
 #include <cfloat>
-#include <set>
 
+#include "primitives/TestingShape.hpp"
+//#include "primitives/HyperCircle.hpp"
 #include "primitives/Line.hpp"
-#include "utils/debug.hpp"
 
 namespace SIRR {
 
 template <unsigned dim>
 
-class BoundingBox {
+class BoundingBox : public TestingShape<dim> {
     public:
         BoundingBox(std::list<Point<dim>> const& points = std::list<Point<dim>>()):
+            TestingShape<dim>(),
             min_(std::vector<float>(dim, FLT_MAX)),
             max_() {
 
@@ -22,6 +23,7 @@ class BoundingBox {
             }
 
         BoundingBox(std::vector<Point<dim>> const& points):
+            TestingShape<dim>(),
             min_(std::vector<float>(dim, FLT_MAX)),
             max_() {
 
@@ -53,21 +55,23 @@ class BoundingBox {
             return true;
         }
 
-        bool is_inside(BoundingBox<dim> const& box) const {
-            return box.contains(min_) && box.contains(max_);
-        }
 
-        bool intersects(BoundingBox<dim> const& box) const {
-            std::list<Point<dim>> points({min_, max_, box.min_, box.max_});
-            BoundingBox<dim> closure(points);
-            for (unsigned i(0); i < dim; ++i) {
-                if ((max_.get(i) - min_.get(i)) +
-                    (box.max_.get(i) - box.min_.get(i)) <
-                    (closure.max_.get(i) - closure.min_.get(i)))
-                    return false;
-            }
+        bool intersects(TestingShape<dim>* shape) const {
 
-            return true;
+            auto casted_box(static_cast<BoundingBox<dim>*>(shape));
+
+            if (casted_box) {
+                std::list<Point<dim>> points({min_, max_, casted_box->min_, casted_box->max_});
+                BoundingBox<dim> closure(points);
+                for (unsigned i(0); i < dim; ++i) {
+                    if ((max_.get(i) - min_.get(i)) +
+                        (casted_box->max_.get(i) - casted_box->min_.get(i)) <
+                        (closure.max_.get(i) - closure.min_.get(i)))
+                        return false;
+                }
+
+                return true;
+            } else return false;
         }
 
         Point<dim> const& get_min() const {
@@ -96,12 +100,6 @@ class BoundingBox {
         Point<dim> min_, max_;
 };
 
-}
-
-template <unsigned dim>
-std::ostream& operator<< (std::ostream& os, SIRR::BoundingBox<dim> const& box) {
-    box.print(os);
-    return os;
 }
 
 #endif //BOUNDING_BOX_HPP

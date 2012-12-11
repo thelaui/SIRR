@@ -5,13 +5,21 @@
 int main(int argc, const char** argv) {
 
     SIRR::Plyfile file;
-    auto polygons(file.load_from("data/simple.ply"));
-//
-//    SIRR::Point<3> p1({5,3,0});
+    auto polygons(file.load_from("data/sphere.ply"));
+
+//    SIRR::Point<3> p1({0,0,0});
 //    SIRR::Point<3> p2({4,4,0});
-//    SIRR::Point<3> p3({2,3,0});
+//    SIRR::Point<3> p3({5,5,0});
 //    SIRR::Point<3> p4({3,2,0});
 //    std::list<SIRR::Point<3>> points({p1,p2,p3,p4});
+//
+//    SIRR::HyperCircle<3> circle(p1, 5);
+//    if (circle.contains(p3))
+//        std::cout << "point inside" << std::endl;
+//
+//    SIRR::BoundingBox<3> box(points);
+//    std::cout << box << std::endl;
+
 
     std::list<SIRR::Point<3>> points;
 
@@ -30,15 +38,17 @@ int main(int argc, const char** argv) {
 
     std::list<SIRR::Line<3>> lines;
     for (auto box : boxes) {
-        auto box_lines(box.as_2D_lines());
+        auto box_lines(box->as_2D_lines());
         lines.insert(lines.end(), box_lines.begin(), box_lines.end());
     }
 
-    std::list<SIRR::Point<3>> query_points({SIRR::Point<3>({2, 4, 0}),
-                                            SIRR::Point<3>({4, 5, 0})});
+    std::list<SIRR::Point<3>> query_points({SIRR::Point<3>({-100, -100, 0}),
+                                            SIRR::Point<3>({100, 100, 0})});
     SIRR::BoundingBox<3> query_box(query_points);
 
-    auto searched_points(tree.search(query_box));
+    std::cout << query_box << std::endl;
+
+    auto searched_points(tree.search(&query_box));
     for (auto point : searched_points)
         std::cout << point << std::endl;
 

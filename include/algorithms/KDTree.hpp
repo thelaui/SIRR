@@ -5,6 +5,7 @@
 #include <algorithm>
 
 #include "primitives/BoundingBox.hpp"
+#include "algorithms/ShapeChecker.hpp"
 
 namespace SIRR {
 
@@ -23,11 +24,11 @@ class KDTree {
             root_ = build(start, 0);
         }
 
-        std::list<Point<dim>> const search(BoundingBox<dim> const& range) const {
+        std::list<Point<dim>> const search(TestingShape<dim>* range) const {
             return search(root_, range);
         }
 
-        std::list<BoundingBox<dim>> const get_bounding_boxes() const {
+        std::list<BoundingBox<dim>*> const get_bounding_boxes() const {
             return get_bounding_boxes(root_);
         }
 
@@ -48,11 +49,11 @@ class KDTree {
                     is_leaf_(true),
                     splitting_dimension_(0),
                     splitting_position_(0.f),
-                    bounds_() {}
+                    bounds_(NULL) {}
 
                 KDNode(KDNode* left_child, KDNode* right_child,
                        unsigned splitting_dimension, float splitting_position,
-                       BoundingBox<dim> const& bounds):
+                       BoundingBox<dim>* bounds):
                     position_(),
                     left_child_(left_child),
                     right_child_(right_child),
@@ -77,7 +78,7 @@ class KDTree {
                     return right_child_;
                 }
 
-                BoundingBox<dim> const& get_bounds() const {
+                BoundingBox<dim>* get_bounds() const {
                     return bounds_;
                 }
 
@@ -87,7 +88,7 @@ class KDTree {
                 bool is_leaf_;
                 unsigned splitting_dimension_;
                 float splitting_position_;
-                BoundingBox<dim> bounds_;
+                BoundingBox<dim>* bounds_;
 
         };
 
@@ -114,29 +115,33 @@ class KDTree {
             KDNode* v1(build(p1, depth + 1));
             KDNode* v2(build(p2, depth + 1));
 
-            BoundingBox<dim> bounds(points);
+            BoundingBox<dim>* bounds(new BoundingBox<dim>(points));
 
             return new KDNode(v1, v2, depth % dim, median_position->get(depth % dim), bounds);
         }
 
-        std::list<Point<dim>> const search(KDNode* root, BoundingBox<dim> const& range) const {
+        std::list<Point<dim>> const search(KDNode* root, TestingShape<dim>* range) const {
 
             std::list<Point<dim>> result;
             if (root->is_leaf()) {
-                if (range.contains(root->get_position()))
+                if (range->contains(root->get_position())) {
                     result.push_back(root->get_position());
+                }
                 return result;
             }
 
             if (root->get_left_child()) {
-                if (root->get_left_child()->is_leaf())
-                    result.push_back(root->get_left_child()->get_position());
+                if (root->get_left_child()->is_leaf()) {
+                    auto sub_result(search(root->get_left_child(), range));
+                    result.insert(result.end(), sub_result.begin(), sub_result.end());
+                }
                 else {
-                    if (root->get_left_child()->get_bounds().is_inside(range)) {
+                    ShapeChecker<dim> checker;
+                    if (checker.is_inside(root->get_left_child()->get_bounds(), range)) {
                         auto sub_result(report_subtree(root->get_left_child()));
                         result.insert(result.end(), sub_result.begin(), sub_result.end());
                     }
-                    else if (root->get_left_child()->get_bounds().intersects(range)) {
+                    else if (root->get_left_child()->get_bounds()->intersects(range)) {
                         auto sub_result(search(root->get_left_child(), range));
                         result.insert(result.end(), sub_result.begin(), sub_result.end());
                     }
@@ -144,14 +149,17 @@ class KDTree {
             }
 
             if (root->get_right_child()) {
-                if (root->get_right_child()->is_leaf())
-                    result.push_back(root->get_right_child()->get_position());
+                if (root->get_right_child()->is_leaf()) {
+                    auto sub_result(search(root->get_right_child(), range));
+                    result.insert(result.end(), sub_result.begin(), sub_result.end());
+                }
                 else {
-                    if (root->get_right_child()->get_bounds().is_inside(range)) {
+                    ShapeChecker<dim> checker;
+                    if (checker.is_inside(root->get_right_child()->get_bounds(), range)) {
                         auto sub_result(report_subtree(root->get_right_child()));
                         result.insert(result.end(), sub_result.begin(), sub_result.end());
                     }
-                    else if (root->get_right_child()->get_bounds().intersects(range)) {
+                    else if (root->get_right_child()->get_bounds()->intersects(range)) {
                         auto sub_result(search(root->get_right_child(), range));
                         result.insert(result.end(), sub_result.begin(), sub_result.end());
                     }
@@ -178,19 +186,19 @@ class KDTree {
             return left_points;
         }
 
-        std::list<BoundingBox<dim>> const get_bounding_boxes(KDNode* root) const {
+        std::list<BoundingBox<dim>*> const get_bounding_boxes(KDNode* root) const {
             if (root->is_leaf())
-                return std::list<BoundingBox<dim>>();
+                return std::list<BoundingBox<dim>*>();
 
-            std::list<BoundingBox<dim>> left_boxes;
+            std::list<BoundingBox<dim>*> left_boxes;
             if (root->get_left_child())
                 left_boxes = get_bounding_boxes(root->get_left_child());
 
-            std::list<BoundingBox<dim>> right_boxes;
+            std::list<BoundingBox<dim>*> right_boxes;
             if (root->get_right_child())
                 right_boxes = get_bounding_boxes(root->get_right_child());
 
-            std::list<BoundingBox<dim>> result({root->get_bounds()});
+            std::list<BoundingBox<dim>*> result({root->get_bounds()});
 
             result.insert(result.end(), left_boxes.begin(), left_boxes.end());
             result.insert(result.end(), right_boxes.begin(), right_boxes.end());

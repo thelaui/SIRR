@@ -50,14 +50,17 @@
 		<Unit filename="include/algorithms/KDTree.hpp" />
 		<Unit filename="include/algorithms/LineIntersectionFinder.hpp" />
 		<Unit filename="include/algorithms/OrientationChecker.hpp" />
+		<Unit filename="include/algorithms/ShapeChecker.hpp" />
 		<Unit filename="include/algorithms/StartEvent.hpp" />
 		<Unit filename="include/algorithms/StatusStructure.hpp" />
 		<Unit filename="include/primitives/BoundingBox.hpp" />
+		<Unit filename="include/primitives/HyperCircle.hpp" />
 		<Unit filename="include/primitives/Line.hpp" />
 		<Unit filename="include/primitives/Line3D.hpp" />
 		<Unit filename="include/primitives/Point.hpp" />
 		<Unit filename="include/primitives/Point3D.hpp" />
 		<Unit filename="include/primitives/Polygon.hpp" />
+		<Unit filename="include/primitives/TestingShape.hpp" />
 		<Unit filename="include/utils/Plyfile.hpp" />
 		<Unit filename="include/utils/RenderWindow.hpp" />
 		<Unit filename="include/utils/SVGBuilder.hpp" />

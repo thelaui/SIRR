@@ -3,6 +3,7 @@
 
 #include <ostream>
 #include <vector>
+#include <cmath>
 
 #include "utils/debug.hpp"
 
@@ -118,6 +119,20 @@ struct COMPARE_POINTS_LESS {
 
     unsigned comp_pos_;
 };
+
+template <unsigned dim>
+float distance_squared(Point<dim> const& p1, Point<dim> const& p2) {
+    Point<dim> substract(p2-p1);
+    float result(0.f);
+    for (unsigned i(0); i < dim; ++i)
+        result += substract.get(i) * substract.get(i);
+    return result;
+}
+
+template <unsigned dim>
+float distance(Point<dim> const& p1, Point<dim> const& p2) {
+    return std::sqrt(distance_squared(p1, p2));
+}
 
 }
 
