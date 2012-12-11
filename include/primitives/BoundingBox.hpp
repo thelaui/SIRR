@@ -56,24 +56,6 @@ class BoundingBox : public TestingShape<dim> {
         }
 
 
-        bool intersects(TestingShape<dim>* shape) const {
-
-            auto casted_box(static_cast<BoundingBox<dim>*>(shape));
-
-            if (casted_box) {
-                std::list<Point<dim>> points({min_, max_, casted_box->min_, casted_box->max_});
-                BoundingBox<dim> closure(points);
-                for (unsigned i(0); i < dim; ++i) {
-                    if ((max_.get(i) - min_.get(i)) +
-                        (casted_box->max_.get(i) - casted_box->min_.get(i)) <
-                        (closure.max_.get(i) - closure.min_.get(i)))
-                        return false;
-                }
-
-                return true;
-            } else return false;
-        }
-
         Point<dim> const& get_min() const {
             return min_;
         }

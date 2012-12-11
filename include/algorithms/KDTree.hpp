@@ -28,6 +28,10 @@ class KDTree {
             return search(root_, range);
         }
 
+        unsigned count(TestingShape<dim>* range) const {
+            return search(root_, range).size();
+        }
+
         std::list<BoundingBox<dim>*> const get_bounding_boxes() const {
             return get_bounding_boxes(root_);
         }
@@ -141,7 +145,7 @@ class KDTree {
                         auto sub_result(report_subtree(root->get_left_child()));
                         result.insert(result.end(), sub_result.begin(), sub_result.end());
                     }
-                    else if (root->get_left_child()->get_bounds()->intersects(range)) {
+                    else if (checker.intersects(root->get_left_child()->get_bounds(), range)) {
                         auto sub_result(search(root->get_left_child(), range));
                         result.insert(result.end(), sub_result.begin(), sub_result.end());
                     }
@@ -159,7 +163,7 @@ class KDTree {
                         auto sub_result(report_subtree(root->get_right_child()));
                         result.insert(result.end(), sub_result.begin(), sub_result.end());
                     }
-                    else if (root->get_right_child()->get_bounds()->intersects(range)) {
+                    else if (checker.intersects(root->get_right_child()->get_bounds(), range)) {
                         auto sub_result(search(root->get_right_child(), range));
                         result.insert(result.end(), sub_result.begin(), sub_result.end());
                     }

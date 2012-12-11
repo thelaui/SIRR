@@ -8,7 +8,8 @@ namespace SIRR {
 RenderWindow::RenderWindow(unsigned width, unsigned height, std::string const& title):
     window_(sf::VideoMode(width, height), title),
     max_(),
-    min_(std::vector<float>(3, FLT_MAX)) {}
+    min_(std::vector<float>(3, FLT_MAX)),
+    mouse_position_() {}
 
 bool RenderWindow::is_open() const{
 
@@ -25,6 +26,10 @@ void RenderWindow::flush() {
         {
             if (event.Type == sf::Event::Closed)
                 window_.Close();
+            if (event.Type == sf::Event::MouseMoved) {
+                mouse_position_.set(0, event.MouseMove.X);
+                mouse_position_.set(1, event.MouseMove.Y);
+            }
         }
 
     window_.Display();
@@ -36,10 +41,10 @@ void RenderWindow::draw(std::list<Point<3>> const& points,
                         unsigned lr, unsigned lg, unsigned lb) {
 
     BoundingBox<3> dimensions(points);
-    for (auto line : lines) {
-        dimensions.include(line.get_a());
-        dimensions.include(line.get_b());
-    }
+//    for (auto line : lines) {
+//        dimensions.include(line.get_a());
+//        dimensions.include(line.get_b());
+//    }
 
     if (dimensions.get_min() < min_)
         min_ = dimensions.get_min();
@@ -64,10 +69,24 @@ void RenderWindow::draw(std::list<Point<3>> const& points,
 
 }
 
+Point<3> const& RenderWindow::get_mouse_position() const {
+    return mouse_position_;
+}
+
+Point<3> const RenderWindow::get_mouse_position_world() const {
+    Point<3> window_dims({float(window_.GetWidth()-20),
+                          float(window_.GetHeight()-20), 1.f});
+
+    Point<3> result(Point<3>({mouse_position_.get(0), window_.GetHeight() - mouse_position_.get(1), 1.f})
+                    / window_dims * (max_ - min_) + min_);
+
+    return result;
+}
+
 
 Point<3> const RenderWindow::world_to_screen_coord(Point<3> const& point) {
     Point<3> window_dims({float(window_.GetWidth()-20),
-                          float(window_.GetHeight()-20), 0.f});
+                          float(window_.GetHeight()-20), 1.f});
     Point<3> result(((point - min_) / (max_ - min_)) * window_dims);
     return Point<3>({result.get(0) + 10, window_.GetHeight()-result.get(1) -10, 0.f});
 }

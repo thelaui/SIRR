@@ -24,6 +24,9 @@ class RenderWindow {
                   std::list<Line<3>> const& lines = std::list<Line<3>>(),
                   unsigned lr = 100, unsigned lg = 100, unsigned lb = 100);
 
+        Point<3> const& get_mouse_position() const;
+        Point<3> const get_mouse_position_world() const;
+
 
     private:
 
@@ -31,6 +34,7 @@ class RenderWindow {
 
         sf::RenderWindow window_;
         Point<3> max_, min_;
+        Point<3> mouse_position_;
 };
 
 }

@@ -74,10 +74,24 @@ class Point {
             return Point<dim>(new_coords);
         }
 
+        Point<dim> const operator+(float scalar) const {
+            std::vector<float> new_coords(dim);
+            for (unsigned i(0); i < dim; ++i)
+                new_coords[i] = coords_[i] + scalar;
+            return Point<dim>(new_coords);
+        }
+
         Point<dim> const operator-(Point<dim> const& rhs) const {
             std::vector<float> new_coords(dim);
             for (unsigned i(0); i < dim; ++i)
                 new_coords[i] = coords_[i] - rhs.coords_[i];
+            return Point<dim>(new_coords);
+        }
+
+        Point<dim> const operator-(float scalar) const {
+            std::vector<float> new_coords(dim);
+            for (unsigned i(0); i < dim; ++i)
+                new_coords[i] = coords_[i] - scalar;
             return Point<dim>(new_coords);
         }
 

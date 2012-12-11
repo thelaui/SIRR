@@ -42,23 +42,25 @@ int main(int argc, const char** argv) {
         lines.insert(lines.end(), box_lines.begin(), box_lines.end());
     }
 
-    std::list<SIRR::Point<3>> query_points({SIRR::Point<3>({-100, -100, 0}),
-                                            SIRR::Point<3>({100, 100, 0})});
+    std::list<SIRR::Point<3>> query_points({SIRR::Point<3>({-50, -50, 0}),
+                                            SIRR::Point<3>({50, 50, 0})});
     SIRR::BoundingBox<3> query_box(query_points);
 
-    std::cout << query_box << std::endl;
-
-    auto searched_points(tree.search(&query_box));
-    for (auto point : searched_points)
-        std::cout << point << std::endl;
+    SIRR::HyperCircle<3> query_circle(SIRR::Point<3>({0, 0, 0}), 60);
 
     SIRR::RenderWindow window(800, 600, "kd-Tree");
 
     while (window.is_open()) {
+        auto mouse_position(window.get_mouse_position_world());
+        query_points = {mouse_position - 50, mouse_position + 50};
+        query_box = SIRR::BoundingBox<3>(query_points);
+        auto searched_points(tree.search(&query_box));
         window.clear();
 
+       // std::cout << window.get_mouse_position_world() << std::endl;
         window.draw(points, 200, 240, 120, lines, 200, 200, 200);
         window.draw({}, 0, 0, 0, query_box.as_2D_lines(), 200, 40, 40);
+//        window.draw({}, 0, 0, 0, query_circle.as_2D_lines(), 200, 40, 40);
         window.draw(searched_points, 200, 40, 40);
 
         window.flush();
