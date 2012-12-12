@@ -43,6 +43,7 @@ int main(int argc, const char** argv) {
         auto button_state(window.get_button_state());
         SIRR::TestingShape<3>* query_range(NULL);
 
+//        std::cout << mouse_position << std::endl;
         extends += 5.f * window.get_mouse_wheel_delta();
 
         if (button_state == 0) {
@@ -52,12 +53,14 @@ int main(int argc, const char** argv) {
         } else if (button_state == 1) {
             query_circle = SIRR::HyperCircle<3>(mouse_position, extends);
             query_range = &query_circle;
+            std::cout << query_circle << std::endl;
+
         }
 
         auto searched_points(tree.search(query_range));
         window.clear();
 
-        window.draw(points, 200, 240, 120, lines, 200, 200, 200);
+        window.draw(points, 200, 240, 120, {}, 200, 200, 200);
         window.draw({}, 0, 0, 0, query_range->as_2D_lines(), 200, 40, 40);
         window.draw(searched_points, 200, 40, 40);
 

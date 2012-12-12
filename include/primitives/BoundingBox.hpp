@@ -14,7 +14,7 @@ class BoundingBox : public TestingShape<dim> {
         BoundingBox(std::list<Point<dim>> const& points = std::list<Point<dim>>()):
             TestingShape<dim>(),
             min_(std::vector<float>(dim, FLT_MAX)),
-            max_() {
+            max_(std::vector<float>(dim, -FLT_MAX)) {
 
                 for (auto point : points)
                     include(point);

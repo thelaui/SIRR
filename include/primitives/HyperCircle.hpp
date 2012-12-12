@@ -29,19 +29,21 @@ class HyperCircle : public TestingShape<dim> {
         std::list<Line<3>> const as_2D_lines() const {
             std::list<Line<3>> lines;
             unsigned res(100);
-            Point<3> last({center_.get(0) + radius_, 0, 0});
-            float angle(2*M_PI / res);
-            for (unsigned i(1); i <= res; ++i) {
 
-                float sin(std::sin(angle));
-                float cos(std::cos(angle));
+            Point<3> last({center_.get(0) + radius_, center_.get(1), 0});
+
+            for (unsigned i(1); i <= res; ++i) {
 
                 Point<3> last_transformed({last.get(0) - center_.get(0),
                                            last.get(1) - center_.get(1),
                                            0});
 
-                Point<3> current({last_transformed.get(0) * cos - last_transformed.get(1) * sin + center_.get(0),
-                                  last_transformed.get(0) * sin + last_transformed.get(1) * cos + center_.get(1),
+                float const angle(2*M_PI * float(i)/ float(res));
+                float const sin(std::sin(angle));
+                float const cos(std::cos(angle));
+
+                Point<3> current({radius_ * cos + center_.get(0),
+                                  radius_ * sin + center_.get(1),
                                   0});
 
                 lines.push_back(Line<3>(last, current));
