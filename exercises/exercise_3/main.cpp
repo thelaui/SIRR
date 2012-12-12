@@ -53,8 +53,6 @@ int main(int argc, const char** argv) {
         } else if (button_state == 1) {
             query_circle = SIRR::HyperCircle<3>(mouse_position, extends);
             query_range = &query_circle;
-            std::cout << query_circle << std::endl;
-
         }
 
         auto searched_points(tree.search(query_range));
