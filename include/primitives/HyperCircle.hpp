@@ -2,7 +2,6 @@
 #define HYPER_CIRCLE_HPP
 
 #include "primitives/TestingShape.hpp"
-#include "primitives/Point.hpp"
 
 namespace SIRR {
 
@@ -27,9 +26,9 @@ class HyperCircle : public TestingShape<dim> {
             return radius_;
         }
 
-        std::list<Line<3>> const as_2D_lines(unsigned res = 100) const {
+        std::list<Line<3>> const as_2D_lines() const {
             std::list<Line<3>> lines;
-
+            unsigned res(100);
             Point<3> last({center_.get(0) + radius_, 0, 0});
             float angle(2*M_PI / res);
             for (unsigned i(1); i <= res; ++i) {

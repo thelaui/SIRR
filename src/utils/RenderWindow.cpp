@@ -9,15 +9,17 @@ RenderWindow::RenderWindow(unsigned width, unsigned height, std::string const& t
     window_(sf::VideoMode(width, height), title),
     max_(),
     min_(std::vector<float>(3, FLT_MAX)),
-    mouse_position_() {}
+    mouse_position_(),
+    button_state_(0),
+    mouse_wheel_delta_(0) {}
 
 bool RenderWindow::is_open() const{
-
     return window_.IsOpened();
 }
 
 void RenderWindow::clear() {
     window_.Clear(sf::Color::White);
+    mouse_wheel_delta_ = 0;
 }
 
 void RenderWindow::flush() {
@@ -30,6 +32,14 @@ void RenderWindow::flush() {
                 mouse_position_.set(0, event.MouseMove.X);
                 mouse_position_.set(1, event.MouseMove.Y);
             }
+            if (event.Type == sf::Event::MouseButtonReleased) {
+                if (event.MouseButton.Button == sf::Mouse::Left)
+                    button_state_ = 0;
+                else if (event.MouseButton.Button == sf::Mouse::Right)
+                    button_state_ = 1;
+            }
+            if (event.Type == sf::Event::MouseWheelMoved)
+                mouse_wheel_delta_ = event.MouseWheel.Delta;
         }
 
     window_.Display();
@@ -41,10 +51,6 @@ void RenderWindow::draw(std::list<Point<3>> const& points,
                         unsigned lr, unsigned lg, unsigned lb) {
 
     BoundingBox<3> dimensions(points);
-//    for (auto line : lines) {
-//        dimensions.include(line.get_a());
-//        dimensions.include(line.get_b());
-//    }
 
     if (dimensions.get_min() < min_)
         min_ = dimensions.get_min();
@@ -83,6 +89,13 @@ Point<3> const RenderWindow::get_mouse_position_world() const {
     return result;
 }
 
+int RenderWindow::get_button_state() const {
+    return button_state_;
+}
+
+int RenderWindow::get_mouse_wheel_delta() const {
+    return mouse_wheel_delta_;
+}
 
 Point<3> const RenderWindow::world_to_screen_coord(Point<3> const& point) {
     Point<3> window_dims({float(window_.GetWidth()-20),

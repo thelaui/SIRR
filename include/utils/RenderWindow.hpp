@@ -26,6 +26,8 @@ class RenderWindow {
 
         Point<3> const& get_mouse_position() const;
         Point<3> const get_mouse_position_world() const;
+        int get_button_state() const;
+        int get_mouse_wheel_delta() const;
 
 
     private:
@@ -35,6 +37,8 @@ class RenderWindow {
         sf::RenderWindow window_;
         Point<3> max_, min_;
         Point<3> mouse_position_;
+        int button_state_;
+        int mouse_wheel_delta_;
 };
 
 }

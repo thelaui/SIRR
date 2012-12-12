@@ -4,8 +4,6 @@
 #include <cfloat>
 
 #include "primitives/TestingShape.hpp"
-//#include "primitives/HyperCircle.hpp"
-#include "primitives/Line.hpp"
 
 namespace SIRR {
 
