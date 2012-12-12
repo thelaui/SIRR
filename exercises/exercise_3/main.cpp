@@ -5,7 +5,7 @@
 int main(int argc, const char** argv) {
 
     SIRR::Plyfile file;
-    auto polygons(file.load_from("data/simple.ply"));
+    auto polygons(file.load_from("data/sphere.ply"));
 
     std::list<SIRR::Point<3>> points;
 
@@ -28,7 +28,7 @@ int main(int argc, const char** argv) {
         lines.insert(lines.end(), box_lines.begin(), box_lines.end());
     }
 
-    float extends(2.f);
+    float extends(40.f);
 
     std::list<SIRR::Point<3>> query_points({SIRR::Point<3>({-extends/2, -extends/2, 0}),
                                             SIRR::Point<3>({extends/2, extends/2, 0})});

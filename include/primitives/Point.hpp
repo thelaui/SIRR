@@ -1,11 +1,9 @@
 #ifndef POINT_HPP
 #define POINT_HPP
 
-#include <ostream>
+#include <iostream>
 #include <vector>
 #include <cmath>
-
-#include "utils/debug.hpp"
 
 namespace SIRR {
 
@@ -16,23 +14,23 @@ class Point {
         Point(std::vector<float> const& coords = std::vector<float>(dim)):
             coords_() {
                 if (coords.size() != dim)
-                    WARNING("Point cannot be constructed from given data.\
+                    std::cout << "Point cannot be constructed from given data.\
                             Number of values doesn't match the point's\
-                            dimension!");
+                            dimension!" << std::endl;
                 else coords_ = coords;
             }
 
         float get(unsigned i) const {
             if (i < dim)
                 return coords_[i];
-            WARNING("Point index out of range. Returning default value!");
+            std::cout << "Point index out of range. Returning default value!" << std::endl;
             return 0.f;
         }
 
         void set(unsigned i, float value) {
             if (i < dim)
                 coords_[i] = value;
-            else WARNING("Point index out of range. Setting nothing!");
+            else std::cout << "Point index out of range. Setting nothing!" << std::endl;
         }
 
         void print(std::ostream& os) const {
