@@ -7,6 +7,7 @@
 #include "algorithms/EndEvent.hpp"
 #include "algorithms/IntersectionEvent.hpp"
 #include "algorithms/KDTree.hpp"
+#include "algorithms/KRangeTree.hpp"
 #include "primitives/Point.hpp"
 #include "primitives/Point3D.hpp"
 #include "primitives/Polygon.hpp"

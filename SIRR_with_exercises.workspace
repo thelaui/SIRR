@@ -8,7 +8,10 @@
 		<Project filename="exercises/exercise_2/exercise_2.cbp">
 			<Depends filename="SIRR.cbp" />
 		</Project>
-		<Project filename="exercises/exercise_3/exercise_3.cbp" active="1">
+		<Project filename="exercises/exercise_3/exercise_3.cbp">
+			<Depends filename="SIRR.cbp" />
+		</Project>
+		<Project filename="exercises/exercise_4/exercise_4.cbp" active="1">
 			<Depends filename="SIRR.cbp" />
 		</Project>
 	</Workspace>
