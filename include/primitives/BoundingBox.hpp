@@ -64,10 +64,10 @@ class BoundingBox : public TestingShape<dim> {
 
         std::list<Line<3>> const as_2D_lines() const {
             std::list<Line<3>> lines;
-            lines.push_back(Line<3>(min_, Point<3>({max_.get(0), min_.get(1), 0})));
-            lines.push_back(Line<3>(min_, Point<3>({min_.get(0), max_.get(1), 0})));
-            lines.push_back(Line<3>(max_, Point<3>({max_.get(0), min_.get(1), 0})));
-            lines.push_back(Line<3>(max_, Point<3>({min_.get(0), max_.get(1), 0})));
+            lines.push_back(Line<3>(Point<3>({min_.get(0), min_.get(1), 0}), Point<3>({max_.get(0), min_.get(1), 0})));
+            lines.push_back(Line<3>(Point<3>({min_.get(0), min_.get(1), 0}), Point<3>({min_.get(0), max_.get(1), 0})));
+            lines.push_back(Line<3>(Point<3>({max_.get(0), max_.get(1), 0}), Point<3>({max_.get(0), min_.get(1), 0})));
+            lines.push_back(Line<3>(Point<3>({max_.get(0), max_.get(1), 0}), Point<3>({min_.get(0), max_.get(1), 0})));
 
             return lines;
         }

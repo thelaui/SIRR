@@ -5,6 +5,7 @@
 		<Option title="SIRR" />
 		<Option pch_mode="2" />
 		<Option compiler="gcc" />
+		<Option virtualFolders="include/algorithms/;" />
 		<Build>
 			<Target title="Debug">
 				<Option output="lib/libSIRR-d" prefix_auto="1" extension_auto="1" />
@@ -49,6 +50,9 @@
 		<Unit filename="include/algorithms/IntersectionEvent.hpp" />
 		<Unit filename="include/algorithms/KDTree.hpp" />
 		<Unit filename="include/algorithms/KRangeTree.hpp" />
+		<Unit filename="include/algorithms/KRangeTree.spec.inl">
+			<Option virtualFolder="include/algorithms/" />
+		</Unit>
 		<Unit filename="include/algorithms/LineIntersectionFinder.hpp" />
 		<Unit filename="include/algorithms/OrientationChecker.hpp" />
 		<Unit filename="include/algorithms/ShapeChecker.hpp" />
