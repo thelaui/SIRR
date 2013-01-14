@@ -21,6 +21,11 @@ KRangeTree<1>::KRangeNode* KRangeTree<1>::build<0>(std::vector<Point<1>> const& 
     return NULL;
 }
 
+template <>
+template <>
+std::list<Point<1>> const KRangeTree<1>::range_search<0>(BoundingBox<1> const& bbox) const {
+    return {};
+}
 
 template <>
 template <>
@@ -38,6 +43,12 @@ template <>
 template <>
 KRangeTree<2>::KRangeNode* KRangeTree<2>::build<0>(std::vector<Point<2>> const& points) {
     return NULL;
+}
+
+template <>
+template <>
+std::list<Point<2>> const KRangeTree<2>::range_search<0>(BoundingBox<2> const& bbox) const {
+    return {};
 }
 
 

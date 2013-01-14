@@ -97,6 +97,14 @@ int RenderWindow::get_mouse_wheel_delta() const {
     return mouse_wheel_delta_;
 }
 
+Point<3> const& RenderWindow::get_world_min() const {
+    return min_;
+}
+
+Point<3> const& RenderWindow::get_world_max() const {
+    return max_;
+}
+
 Point<3> const RenderWindow::world_to_screen_coord(Point<3> const& point) {
     Point<3> window_dims({float(window_.GetWidth()-20),
                           float(window_.GetHeight()-20), 1.f});

@@ -12,7 +12,7 @@ namespace SIRR {
 
 class RenderWindow {
     public:
-        RenderWindow(unsigned widht, unsigned height, std::string const& title);
+        RenderWindow(unsigned width, unsigned height, std::string const& title);
 
         bool is_open() const;
 
@@ -28,6 +28,9 @@ class RenderWindow {
         Point<3> const get_mouse_position_world() const;
         int get_button_state() const;
         int get_mouse_wheel_delta() const;
+
+        Point<3> const& get_world_min() const;
+        Point<3> const& get_world_max() const;
 
 
     private:

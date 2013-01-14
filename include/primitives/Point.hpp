@@ -107,6 +107,14 @@ class Point {
             return Point<dim>(new_coords);
         }
 
+        template <unsigned new_dim>
+        Point<new_dim> const cropped_to() const {
+            Point<new_dim> p;
+            for (unsigned i(0); i < new_dim; ++i)
+                p.set(i, get(i));
+            return p;
+        }
+
         static Point<dim> const get_random(float min = 0.f, float max = 100.f) {
             if (!random_initialized_) {
                 srand(time(NULL));

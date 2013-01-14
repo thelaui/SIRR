@@ -84,14 +84,14 @@ class KRangeTree {
                 template <unsigned tree_dim>
                 std::list<Point<point_dim>> const search(BoundingBox<point_dim> const& bbox) const {
                     if (is_leaf_) {
-                        if (position_.get(point_dim-tree_dim) >= bbox.get_min().get(point_dim-tree_dim) &&
-                            position_.get(point_dim-tree_dim) <= bbox.get_max().get(point_dim-tree_dim))
+                        if (bbox.contains(position_))
                             return {position_};
                         return {};
                     }
 
                     if (split_value_ >= bbox.get_min().get(point_dim-tree_dim) &&
                         split_value_ < bbox.get_max().get(point_dim-tree_dim)) {
+
                         std::list<Point<point_dim>> left_points;
                         if (left_child_)
                             left_points = left_child_->report_left_part_of_split<tree_dim>(bbox);
@@ -118,7 +118,7 @@ class KRangeTree {
                 template <unsigned tree_dim>
                 std::list<Point<point_dim>> const report_left_part_of_split(BoundingBox<point_dim> const& bbox) const {
                     if (is_leaf_) {
-                        if (position_.get(point_dim-tree_dim) >= bbox.get_min().get(point_dim-tree_dim) && position_.get(point_dim-tree_dim) <= bbox.get_max().get(point_dim-tree_dim))
+                        if (bbox.contains(position_))
                             return {position_};
                         return {};
                     }
@@ -139,7 +139,7 @@ class KRangeTree {
                 template <unsigned tree_dim>
                 std::list<Point<point_dim>> const report_right_part_of_split(BoundingBox<point_dim> const& bbox) const {
                     if (is_leaf_) {
-                        if (position_.get(point_dim-tree_dim) >= bbox.get_min().get(point_dim-tree_dim) && position_.get(point_dim-tree_dim) <= bbox.get_max().get(point_dim-tree_dim))
+                        if (bbox.contains(position_))
                             return {position_};
                         return {};
                     }
@@ -161,6 +161,7 @@ class KRangeTree {
                 std::list<Point<point_dim>> const report_subtree(BoundingBox<point_dim> const& bbox) const {
 
                     if (is_leaf_) {
+                        if (bbox.contains(position_))
                             return {position_};
                         return {};
                     }
@@ -169,18 +170,19 @@ class KRangeTree {
                     if (sub_range_tree_)
                         central_points = sub_range_tree_->range_search<tree_dim>(bbox);
 
-                    std::list<Point<point_dim>> left_points;
-                    if (left_child_)
-                        left_points = left_child_->report_subtree<tree_dim>(bbox);
+//                    std::list<Point<point_dim>> left_points;
+//                    if (left_child_)
+//                        left_points = left_child_->report_subtree<tree_dim>(bbox);
+//
+//                    std::list<Point<point_dim>> right_points;
+//                    if (right_child_)
+//                        right_points = right_child_->report_subtree<tree_dim>(bbox);
+//
+//                    left_points.insert(left_points.end(), central_points.begin(), central_points.end());
+//                    left_points.insert(left_points.end(), right_points.begin(), right_points.end());
 
-                    std::list<Point<point_dim>> right_points;
-                    if (right_child_)
-                        right_points = right_child_->report_subtree<tree_dim>(bbox);
-
-                    left_points.insert(left_points.end(), central_points.begin(), central_points.end());
-                    left_points.insert(left_points.end(), right_points.begin(), right_points.end());
-
-                    return left_points;
+//                    return left_points;
+                    return central_points;
 
                 }
 
