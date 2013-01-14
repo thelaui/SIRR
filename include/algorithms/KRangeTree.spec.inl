@@ -59,6 +59,24 @@ KRangeTree<3>::KRangeNode* KRangeTree<3>::build<0>(std::vector<Point<3>> const& 
     return NULL;
 }
 
+template <>
+template <>
+void KRangeTree<3>::print<0>(std::ostream& os) const {
+
+}
+
+template <>
+template <>
+void KRangeTree<2>::print<0>(std::ostream& os) const {
+
+}
+
+template <>
+template <>
+void KRangeTree<1>::print<0>(std::ostream& os) const {
+
+}
+
 }
 
 #endif //K_RANGE_TREE_SPEC_INL

@@ -36,7 +36,7 @@ class KRangeTree {
         template <unsigned tree_dim>
         void print(std::ostream& os) const {
             if (root_)
-                root_->print(os, 0);
+                root_->print<tree_dim>(os, 0);
         }
 
     private:
@@ -186,21 +186,35 @@ class KRangeTree {
                 }
 
 
+                template <unsigned tree_dim>
                 void print(std::ostream& os, unsigned depth) const {
+                    for (unsigned i(0); i<point_dim - tree_dim; ++i)
+                        os << "\t";
+
                     for (unsigned i(0); i<depth; ++i)
                         os << " ";
 
                     if (is_leaf_)
-                        os << "leaf\t" << position_;
+                        os << "leaf   " << position_;
                     else
-                        os << "intern\t" << split_value_;
+                        os << "intern " << split_value_;
 
                     os << std::endl;
 
+                    if (sub_range_tree_) {
+                        for (unsigned i(0); i<point_dim - tree_dim; ++i)
+                            os << "\t";
+
+                        for (unsigned i(0); i<depth; ++i)
+                            os << " ";
+                        os << "--sub range tree" << std::endl;
+                        sub_range_tree_->print<tree_dim-1>(os);
+                    }
+
                     if (left_child_)
-                        left_child_->print(os, depth+1);
+                        left_child_->print<tree_dim>(os, depth+1);
                     if (right_child_)
-                        right_child_->print(os, depth+1);
+                        right_child_->print<tree_dim>(os, depth+1);
                 }
 
             private:
@@ -229,8 +243,11 @@ class KRangeTree {
 
             KRangeNode* left_child(build<tree_dim>(left_points));
             KRangeNode* right_child(build<tree_dim>(right_points));
-            KRangeTree<point_dim>* sub_range_tree(new KRangeTree<point_dim>());
-            sub_range_tree->generate<tree_dim-1>(points);
+            KRangeTree<point_dim>* sub_range_tree(NULL);
+            if (tree_dim - 1 > 0) {
+                sub_range_tree = new KRangeTree<point_dim>();
+                sub_range_tree->generate<tree_dim-1>(points);
+            }
 
             return new KRangeNode(left_child, right_child, (median_position-1)->get(point_dim - tree_dim), sub_range_tree);
         }
@@ -241,7 +258,7 @@ class KRangeTree {
 
 #include "algorithms/KRangeTree.spec.inl"
 
-template <unsigned point_dim, unsigned tree_dim = 1>
+template <unsigned point_dim, unsigned tree_dim = 2>
 std::ostream& operator<< (std::ostream& os, SIRR::KRangeTree<point_dim> const& tree) {
     tree.template print<tree_dim>(os);
     return os;
