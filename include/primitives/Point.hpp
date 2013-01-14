@@ -107,8 +107,23 @@ class Point {
             return Point<dim>(new_coords);
         }
 
+        static Point<dim> const get_random(float min = 0.f, float max = 100.f) {
+            if (!random_initialized_) {
+                srand(time(NULL));
+                random_initialized_ = true;
+            }
+
+            Point<dim> p;
+            for (unsigned i(0); i < dim; ++i)
+                p.set(i, static_cast<float>(std::rand())/RAND_MAX
+                         * (max - min) + min);
+            return p;
+        }
+
     private:
         std::vector<float> coords_;
+
+        static bool random_initialized_;
 };
 
 
@@ -145,6 +160,9 @@ template <unsigned dim>
 float distance(Point<dim> const& p1, Point<dim> const& p2) {
     return std::sqrt(distance_squared(p1, p2));
 }
+
+template <unsigned dim>
+bool Point<dim>::random_initialized_ = false;
 
 }
 

@@ -2,3 +2,4 @@ obj/*
 lib/*
 *.depend
 *.layout
+*.cbTemp

@@ -161,7 +161,6 @@ class KRangeTree {
                 std::list<Point<point_dim>> const report_subtree(BoundingBox<point_dim> const& bbox) const {
 
                     if (is_leaf_) {
-                        if (tree_dim == 1)
                             return {position_};
                         return {};
                     }
@@ -192,7 +191,7 @@ class KRangeTree {
                         os << "\t";
 
                     for (unsigned i(0); i<depth; ++i)
-                        os << " ";
+                        os << "-";
 
                     if (is_leaf_)
                         os << "leaf   " << position_;
@@ -206,7 +205,7 @@ class KRangeTree {
                             os << "\t";
 
                         for (unsigned i(0); i<depth; ++i)
-                            os << " ";
+                            os << "-";
                         os << "--sub range tree" << std::endl;
                         sub_range_tree_->print<tree_dim-1>(os);
                     }
