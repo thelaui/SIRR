@@ -35,13 +35,8 @@ class KRangeTree {
 
         template <unsigned tree_dim>
         void print(std::ostream& os) const {
-            Point<point_dim> min(std::vector<float>(point_dim, -FLT_MAX));
-            Point<point_dim> max(std::vector<float>(point_dim, FLT_MAX));
-            std::vector<Point<point_dim>> vec({min, max});
-            BoundingBox<point_dim> bbox(vec);
-            auto points(range_search<tree_dim>(bbox));
-            for (auto point : points)
-                os << point << std::endl;
+            if (root_)
+                root_->print(os, 0);
         }
 
     private:
@@ -95,7 +90,8 @@ class KRangeTree {
                         return {};
                     }
 
-                    if (split_value_ >= bbox.get_min().get(point_dim-tree_dim) && split_value_ <= bbox.get_max().get(point_dim-tree_dim)) {
+                    if (split_value_ >= bbox.get_min().get(point_dim-tree_dim) &&
+                        split_value_ < bbox.get_max().get(point_dim-tree_dim)) {
                         std::list<Point<point_dim>> left_points;
                         if (left_child_)
                             left_points = left_child_->report_left_part_of_split<tree_dim>(bbox);
@@ -190,6 +186,23 @@ class KRangeTree {
                 }
 
 
+                void print(std::ostream& os, unsigned depth) const {
+                    for (unsigned i(0); i<depth; ++i)
+                        os << " ";
+
+                    if (is_leaf_)
+                        os << "leaf\t" << position_;
+                    else
+                        os << "intern\t" << split_value_;
+
+                    os << std::endl;
+
+                    if (left_child_)
+                        left_child_->print(os, depth+1);
+                    if (right_child_)
+                        right_child_->print(os, depth+1);
+                }
+
             private:
                 bool is_leaf_;
                 Point<point_dim> position_;
@@ -228,7 +241,7 @@ class KRangeTree {
 
 #include "algorithms/KRangeTree.spec.inl"
 
-template <unsigned point_dim, unsigned tree_dim = 2>
+template <unsigned point_dim, unsigned tree_dim = 1>
 std::ostream& operator<< (std::ostream& os, SIRR::KRangeTree<point_dim> const& tree) {
     tree.template print<tree_dim>(os);
     return os;
