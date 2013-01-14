@@ -149,7 +149,7 @@ class KRangeTree {
                         left_points = left_child_->report_subtree<tree_dim>(bbox);
 
                     std::list<Point<point_dim>> right_points;
-                    if (split_value_ <= bbox.get_max().get(point_dim-tree_dim))
+                    if (split_value_ < bbox.get_max().get(point_dim-tree_dim))
                         if (right_child_)
                             right_points = right_child_->report_right_part_of_split<tree_dim>(bbox);
 
@@ -166,23 +166,20 @@ class KRangeTree {
                         return {};
                     }
 
-                    std::list<Point<point_dim>> central_points;
                     if (sub_range_tree_)
-                        central_points = sub_range_tree_->range_search<tree_dim>(bbox);
+                       return sub_range_tree_->range_search<tree_dim-1>(bbox);
 
-//                    std::list<Point<point_dim>> left_points;
-//                    if (left_child_)
-//                        left_points = left_child_->report_subtree<tree_dim>(bbox);
-//
-//                    std::list<Point<point_dim>> right_points;
-//                    if (right_child_)
-//                        right_points = right_child_->report_subtree<tree_dim>(bbox);
-//
-//                    left_points.insert(left_points.end(), central_points.begin(), central_points.end());
-//                    left_points.insert(left_points.end(), right_points.begin(), right_points.end());
+                    std::list<Point<point_dim>> left_points;
+                    if (left_child_)
+                        left_points = left_child_->report_subtree<tree_dim>(bbox);
 
-//                    return left_points;
-                    return central_points;
+                    std::list<Point<point_dim>> right_points;
+                    if (right_child_)
+                        right_points = right_child_->report_subtree<tree_dim>(bbox);
+
+                    left_points.insert(left_points.end(), right_points.begin(), right_points.end());
+
+                    return left_points;
 
                 }
 

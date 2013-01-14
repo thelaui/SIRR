@@ -3,7 +3,7 @@
 #include <iostream>
 
 #define DIM 2
-#define POINT_COUNT 10
+#define POINT_COUNT 1000
 #define DEBUG 0
 
 int main(int argc, const char** argv) {
@@ -25,9 +25,9 @@ int main(int argc, const char** argv) {
     SIRR::KRangeTree<DIM> tree;
     tree.generate<DIM>(points);
 
-    tree.print<DIM>(std::cout);
-
 #if DEBUG == 1
+
+    tree.print<DIM>(std::cout);
 
     std::list<SIRR::Point<DIM>> query_points({SIRR::Point<DIM>({4.5, 8}),
                                               SIRR::Point<DIM>({5, 8.5})});
@@ -66,7 +66,7 @@ int main(int argc, const char** argv) {
 
         query_points = {mouse_position - extends/2, mouse_position + extends/2};
         query_range = SIRR::BoundingBox<DIM>(query_points);
-        std::cout << query_range << std::endl;
+        //std::cout << query_range << std::endl;
         auto searched_points(tree.range_search<DIM>(query_range));
 
         std::list<SIRR::Point<3>> draw_searched_points;
