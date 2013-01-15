@@ -18,7 +18,7 @@ int main(int argc, const char** argv) {
     }
 
     SIRR::KDTree<3> tree;
-    tree.build(points);
+    tree.generate(points);
 
     auto boxes(tree.get_bounding_boxes());
 

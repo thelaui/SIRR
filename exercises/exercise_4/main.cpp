@@ -3,59 +3,77 @@
 #include <iostream>
 
 #define DIM 2
-#define POINT_COUNT 1000
-#define DEBUG 0
+#define POINT_COUNT 100000
+#define DEBUG_ENABLED 1
 
 int main(int argc, const char** argv) {
-
-    SIRR::Point<DIM> p1({1,6});
-    SIRR::Point<DIM> p2({3,8});
-    SIRR::Point<DIM> p3({5,7});
-    SIRR::Point<DIM> p4({2,10});
-    SIRR::Point<DIM> p5({4,9});
-
-//    std::list<SIRR::Point<DIM>> points({p1, p2, p3, p4, p5});
 
     std::list<SIRR::Point<DIM>> points;
 
     for (unsigned i(0); i < POINT_COUNT; ++i)
         points.push_back(SIRR::Point<DIM>::get_random());
 
+    SIRR::KRangeTree<DIM> range_tree;
 
-    SIRR::KRangeTree<DIM> tree;
-    tree.generate<DIM>(points);
+#if DEBUG_ENABLED == 1
+    SIRR::Timer timer;
+    MESSAGE("Generating range-tree with %u points...", unsigned(points.size()));
+    timer.reset();
+    range_tree.generate<DIM>(points);
+    timer.print_elapsed_time();
+    MESSAGE("Done.\n");
 
-#if DEBUG == 1
+    SIRR::KDTree<DIM> kd_tree;
+    MESSAGE("Generating kd-tree with %u points...", unsigned(points.size()));
+    timer.reset();
+    kd_tree.generate(points);
+    timer.print_elapsed_time();
+    MESSAGE("Done.\n");
 
-    tree.print<DIM>(std::cout);
+    unsigned query_repeat(100);
 
-    std::list<SIRR::Point<DIM>> query_points({SIRR::Point<DIM>({4.5, 8}),
-                                              SIRR::Point<DIM>({5, 8.5})});
-    SIRR::BoundingBox<DIM> query_range(query_points);
+    for (unsigned i(0); i < 10; ++i) {
+        SIRR::Point<DIM> min(std::vector<float>(DIM, 30.f - i * 20));
+        SIRR::Point<DIM> max(std::vector<float>(DIM, 60.f + i * 20));
+        std::list<SIRR::Point<DIM>> query_points({min, max});
 
-    auto searched_points(tree.range_search<DIM>(query_range));
+        SIRR::BoundingBox<DIM> query_range(query_points);
+        MESSAGE("Using bounding box [%f,%f;%f,%f].",
+                query_range.get_min().get(0), query_range.get_min().get(1),
+                query_range.get_max().get(0), query_range.get_max().get(1) );
 
+        float average_time(0.f);
 
-    std::cout << "Bounding box:" << std::endl;
-    std::cout << query_range << std::endl;
+        MESSAGE("Querying range-tree...");
+        for (unsigned i(0); i < query_repeat; ++i) {
+            timer.reset();
+            range_tree.range_search<DIM>(query_range);
+            average_time += timer.get_elapsed_time()/query_repeat;
+        }
+        MESSAGE("Done.");
+        MESSAGE("Needed %f seconds in average.\n", average_time);
 
-    std::cout << "Correct points:" << std::endl;
-    for (auto point : points)
-        if (query_range.contains(point))
-            std::cout << point << std::endl;
+        average_time = 0.f;
 
-    std::cout << "Found points:" << std::endl;
-    for (auto point : searched_points)
-        std::cout << point << std::endl;
+        MESSAGE("Querying kd-tree...");
+        for (unsigned i(0); i < query_repeat; ++i) {
+            timer.reset();
+            kd_tree.search(&query_range);
+            average_time += timer.get_elapsed_time()/query_repeat;
+        }
+        MESSAGE("Done.");
+        MESSAGE("Needed %f seconds in average.\n", average_time);
+    }
 
 #else
+    range_tree.generate<DIM>(points);
     std::list<SIRR::Point<3>> draw_points;
     for (auto point : points)
         draw_points.push_back(SIRR::Point<3>({point.get(0), point.get(1), 0.f}));
 
     SIRR::RenderWindow window(800, 600, "K-Range-Tree");
 
-    float extends(5.f);
+    float extends(0.f);
     std::list<SIRR::Point<DIM>> query_points({SIRR::Point<DIM>({-extends/2, -extends/2}),
                                             SIRR::Point<DIM>({extends/2, extends/2})});
     SIRR::BoundingBox<DIM> query_range(query_points);
@@ -66,8 +84,7 @@ int main(int argc, const char** argv) {
 
         query_points = {mouse_position - extends/2, mouse_position + extends/2};
         query_range = SIRR::BoundingBox<DIM>(query_points);
-        //std::cout << query_range << std::endl;
-        auto searched_points(tree.range_search<DIM>(query_range));
+        auto searched_points(range_tree.range_search<DIM>(query_range));
 
         std::list<SIRR::Point<3>> draw_searched_points;
         for (auto point : searched_points)

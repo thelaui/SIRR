@@ -19,3 +19,5 @@
 #include "utils/sclap.hpp"
 #include "utils/SVGBuilder.hpp"
 #include "utils/RenderWindow.hpp"
+#include "utils/Timer.hpp"
+#include "utils/debug.hpp"

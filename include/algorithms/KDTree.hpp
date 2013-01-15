@@ -17,7 +17,7 @@ class KDTree {
         KDTree():
             root_(NULL) {}
 
-        void build(std::list<Point<dim>> const& points) {
+        void generate(std::list<Point<dim>> const& points) {
             std::vector<Point<dim>> start(points.begin(), points.end());
             COMPARE_POINTS_LESS<dim> comparator(0);
             std::sort(start.begin(), start.end(), comparator);

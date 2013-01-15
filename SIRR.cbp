@@ -41,6 +41,7 @@
 		</Compiler>
 		<Linker>
 			<Add library="sfml-graphics" />
+			<Add library="sfml-system" />
 		</Linker>
 		<Unit filename="include/SIRR.hpp" />
 		<Unit filename="include/algorithms/ConvexHullBuilder.hpp" />
@@ -69,6 +70,7 @@
 		<Unit filename="include/utils/Plyfile.hpp" />
 		<Unit filename="include/utils/RenderWindow.hpp" />
 		<Unit filename="include/utils/SVGBuilder.hpp" />
+		<Unit filename="include/utils/Timer.hpp" />
 		<Unit filename="include/utils/debug.hpp" />
 		<Unit filename="include/utils/sclap.hpp" />
 		<Unit filename="src/algorithms/ConvexHullBuilder.cpp" />
