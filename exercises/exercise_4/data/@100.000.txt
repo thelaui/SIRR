@@ -1,0 +1,53 @@
+[MESSAGE][main.cpp:20] Generating range-tree with 100000 points...
+[MESSAGE][Timer.hpp:21] 3.496463 seconds elapsed.
+[MESSAGE][main.cpp:24] Done.
+
+[MESSAGE][main.cpp:27] Generating kd-tree with 100000 points...
+[MESSAGE][Timer.hpp:21] 1.061061 seconds elapsed.
+[MESSAGE][main.cpp:31] Done.
+
+[MESSAGE][main.cpp:43] Using bounding box [40.000000,40.000000;60.000000,60.000000].
+[MESSAGE][main.cpp:47] Querying range-tree...
+[MESSAGE][main.cpp:53] Done.
+[MESSAGE][main.cpp:54] Needed 0.027737 seconds in average.
+
+[MESSAGE][main.cpp:58] Querying kd-tree...
+[MESSAGE][main.cpp:64] Done.
+[MESSAGE][main.cpp:65] Needed 0.016286 seconds in average.
+
+[MESSAGE][main.cpp:43] Using bounding box [20.000000,20.000000;80.000000,80.000000].
+[MESSAGE][main.cpp:47] Querying range-tree...
+[MESSAGE][main.cpp:53] Done.
+[MESSAGE][main.cpp:54] Needed 0.264137 seconds in average.
+
+[MESSAGE][main.cpp:58] Querying kd-tree...
+[MESSAGE][main.cpp:64] Done.
+[MESSAGE][main.cpp:65] Needed 0.229465 seconds in average.
+
+[MESSAGE][main.cpp:43] Using bounding box [0.000000,0.000000;100.000000,100.000000].
+[MESSAGE][main.cpp:47] Querying range-tree...
+[MESSAGE][main.cpp:53] Done.
+[MESSAGE][main.cpp:54] Needed 0.784909 seconds in average.
+
+[MESSAGE][main.cpp:58] Querying kd-tree...
+[MESSAGE][main.cpp:64] Done.
+[MESSAGE][main.cpp:65] Needed 0.725415 seconds in average.
+
+[MESSAGE][main.cpp:43] Using bounding box [-20.000000,-20.000000;120.000000,120.000000].
+[MESSAGE][main.cpp:47] Querying range-tree...
+[MESSAGE][main.cpp:53] Done.
+[MESSAGE][main.cpp:54] Needed 0.764438 seconds in average.
+
+[MESSAGE][main.cpp:58] Querying kd-tree...
+[MESSAGE][main.cpp:64] Done.
+[MESSAGE][main.cpp:65] Needed 0.749022 seconds in average.
+
+[MESSAGE][main.cpp:43] Using bounding box [-40.000000,-40.000000;140.000000,140.000000].
+[MESSAGE][main.cpp:47] Querying range-tree...
+[MESSAGE][main.cpp:53] Done.
+[MESSAGE][main.cpp:54] Needed 0.790144 seconds in average.
+
+[MESSAGE][main.cpp:58] Querying kd-tree...
+[MESSAGE][main.cpp:64] Done.
+[MESSAGE][main.cpp:65] Needed 0.757086 seconds in average.
+

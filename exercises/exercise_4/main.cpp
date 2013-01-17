@@ -3,8 +3,8 @@
 #include <iostream>
 
 #define DIM 2
-#define POINT_COUNT 100000
-#define DEBUG_ENABLED 1
+#define POINT_COUNT 2000
+#define DEBUG_ENABLED 0
 
 int main(int argc, const char** argv) {
 
@@ -30,10 +30,10 @@ int main(int argc, const char** argv) {
     timer.print_elapsed_time();
     MESSAGE("Done.\n");
 
-    unsigned query_repeat(100);
+    unsigned const query_repeat(5);
 
-    for (unsigned i(0); i < 10; ++i) {
-        SIRR::Point<DIM> min(std::vector<float>(DIM, 30.f - i * 20));
+    for (unsigned i(0); i < 5; ++i) {
+        SIRR::Point<DIM> min(std::vector<float>(DIM, 40.f - i * 20));
         SIRR::Point<DIM> max(std::vector<float>(DIM, 60.f + i * 20));
         std::list<SIRR::Point<DIM>> query_points({min, max});
 
